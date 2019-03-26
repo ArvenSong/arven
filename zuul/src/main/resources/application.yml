@@ -6,7 +6,7 @@ server:
   port: 443
   ssl:
     enabled: true
-    key-store: E:\Workspace\arven\zuul\src\main\resources\your-name.jks
+    key-store: /opt/your-name.jks
     key-store-password: 19930308you
     key-store-type: JKS
     key-alias: 1
