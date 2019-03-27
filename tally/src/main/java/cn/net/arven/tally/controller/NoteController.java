@@ -68,5 +68,9 @@ public class NoteController {
 
         return "add";
     }
+    @RequestMapping("/")
+    public Object home(){
+        return "index";
+    }
 
 }

@@ -27,7 +27,7 @@ public class ZuulApplication {
 
 	@RequestMapping("/")
 	public Object index (){
-		return "index";
+		return "index.html";
 	}
 
 	/**

@@ -14,16 +14,16 @@ server:
 spring:
   application:
     name: zuul
-  resources:
-    chain:
-      strategy:
-        content:
-          enabled: true
-          paths: /**
-  mvc:
-    view:
-      prefix: /
-      suffix: .html
+#  resources:
+#    chain:
+#      strategy:
+#        content:
+#          enabled: true
+#          paths: /**
+#  mvc:
+#    view:
+#      prefix: /
+#      suffix: .html
 
 zuul:
   routes:
