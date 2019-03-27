@@ -33,3 +33,6 @@ zuul:
     baidu:
       path: /baidu/**
       url: http://www.baidu.com
+    tally:
+      path: /tally/**
+      serviceId: tally

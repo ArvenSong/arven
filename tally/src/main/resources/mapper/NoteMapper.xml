@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.arven.tally.dao.NoteDao">
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, content, amount, remain, file, creator, create_time, update_time
+    </sql>
+    <select id="selectAll" resultType="com.arven.tally.entity.Note">
+        SELECT <include refid="Base_Column_List"></include> FROM note ORDER BY create_time DESC, remain
+    </select>
+    <select id="selectLastOne" resultType="com.arven.tally.entity.Note">
+        SELECT <include refid="Base_Column_List"/> FROM note ORDER BY create_time DESC, remain limit 1
+    </select>
+
+
+</mapper>

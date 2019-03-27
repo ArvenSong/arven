@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8"/>
+    <title>生活费开销记录</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css" th:href="@{/layui/css/layui.css}" media="all"/>
+    <script src="/static/layui/layui.js" th:src="@{/layui/layui.js}"></script>
+    <script src="/static/js/jquery-3.2.1.min.js" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+
+</head>
+<body>
+<div><span style="margin-left: 20px;display: block;margin-right: 20px;">
+<br/><br/>
+
+<div id="in" style="display: none">
+    <div>
+         <br/>
+        <span style="display: block;text-align: center;">
+            <input type="password" id="password" class="password"/>
+        </span>
+    </div>
+</div>
+<div>
+    <span style="text-align: center;display: block;">
+        <p style="font-size: large">生活费开销记录</p>
+    </span>
+</div>
+<div>
+    <span style="text-align: right;display: block;margin-right: 60px">
+       <button id="add" onclick="add()" class="layui-btn">新增</button>
+    </span>
+</div>
+
+<table id="demo" class="layui-table" lay-filter="test"></table>
+
+<script>
+    layui.use(['table', 'util'], function () {
+        var table = layui.table;
+
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            , skin: 'row' //行边框风格
+            , even: true //开启隔行背景
+            // ,size: 'sm' //小尺寸的表格
+            // ,height: 312
+            , url: '/tally/note/getPageData' //数据接口
+            , page: true //开启分页
+            , cols: [[ //表头
+                {
+                    field: 'createTime', title: '日期', sort: true, templet: function (d) {
+                        return layui.util.toDateString(d.createTime, 'yyyy-MM-dd HH:mm');
+                    }
+                }
+                , {field: 'content', title: '事项'}
+                , {field: 'amount', title: '花费（元）'}
+                , {field: 'file', title: '小票',templet:function (note) {
+
+                        if (note.file != null) {
+                            return '<a href="/tally/view/note/ticket/'+note.file+'">查看小票</a>'
+                        }
+                        return "";
+
+                    }}
+                , {field: 'remain', title: '余额（元）'}
+            ]]
+        });
+    });
+
+    function add() {
+        layer.open({
+            title: "请输入管理员密码",
+            type: 1,
+            content: $("#in").html(),//这里content是一个普通的String
+            area: ['260px', '163.2px'], //宽高
+            skin: 'layui-layer-molv',
+            btn: ['确定', '取消'],
+            yes: function (index) {
+                getAddUrl(index)
+            }
+        });
+    }
+
+    var password = '';
+    var addUrl = '';
+
+    function getAddUrl(index) {
+        $(".password").each(function (index) {
+            if (index == 1) {
+                password = $(this).val();
+            }
+        });
+        $.post("/tally/note/getAddUrl", {
+            password: password
+        }, function (data) {
+            if (data === false) {
+                layer.msg('密码输入错误！请重新输入！');
+            } else {
+                addUrl = data;
+                showAdd();
+                layer.close(index)
+            }
+        });
+    }
+
+    function showAdd() {
+        layer.open({
+            title: "新增消费记录",
+            type: 2,
+            content: "/tally/note" + addUrl,//这里content是一个普通的String
+            area: ['460px', '563.2px'], //宽高
+            skin: 'layui-layer-molv',
+
+        });
+    }
+
+</script>
+
+</span>
+</div>
+</body>
+</html>

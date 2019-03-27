@@ -26,6 +26,7 @@
         <module>eureka</module>
         <module>client</module>
         <module>zuul</module>
+        <module>tally</module>
     </modules>
     <dependencies>
         <dependency>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css" th:href="@{/layui/css/layui.css}" media="all"/>
+    <script src="/static/layui/layui.all.js" th:src="@{/layui/layui.all.js}"></script>
+    <script src="/static/js/jquery-3.2.1.min.js" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+    <style type="text/css">
+        span{
+            display: block;text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div>
+    <div>
+        <br/>
+        <span>
+            <label>事项：</label>
+            <textarea type="text" id="content"></textarea>
+        </span>
+        <br/>
+        <span>
+            <label>金额：</label>
+            <input type="text" id="amount"/>
+        </span>
+        <br/>
+
+        <input type="hidden" id="file"/>
+    <span>
+        <button type="button" class="layui-btn" id="ticket">
+            <i class="layui-icon">&#xe67c;</i>上传小票
+        </button>
+
+        <p id="msg" style="text-align: center;color: #0000FF"></p>
+        <img src="#" id="picture" style="display: none;" width="200px"/>
+    </span>
+    </div>
+    <br/><br/>
+    <div style="display: block;text-align: center">
+        <span>
+            <input type="button" value="保存" onclick="save()" class="layui-btn"/>
+        </span>
+    </div>
+</div>
+<script>
+    function save() {
+        $.post("/tally/note/save",{
+            content:$("#content").val(),
+            amount:$("#amount").val(),
+            file:$("#file").val()
+        },function (data) {
+            if(data==="success"){
+                window.parent.layer.closeAll();
+                window.parent.layer.msg("保存成功！");
+                window.parent.location.reload();
+            }else {
+                layer.msg("保存失败！")
+            }
+        })
+    }
+
+    layui.use('upload', function(){
+        var upload = layui.upload;
+
+        //执行实例
+        var uploadInst = upload.render({
+            elem: '#ticket' //绑定元素
+            ,url: '/tally/file/note/ticket' //上传接口
+            ,done: function(res){
+                //上传完毕回调
+                var fileId = res.fileId;
+                $("#file").val(fileId);
+                $("#msg").text("小票已上传。");
+                $("#picture").css("display","");
+                $("#picture").attr("src","/tally/view/note/ticket/"+fileId);
+
+                layer.msg("上传成功！")
+            }
+            ,error: function(){
+                layer.msg("上传失败！")
+            }
+        });
+    });
+</script>
+</body>
+</html>
