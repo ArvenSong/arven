@@ -2,6 +2,8 @@ package cn.net.arven.client.util;
 
 import ij.IJ;
 import ij.ImagePlus;
+import ij.ImageStack;
+import ij.gui.Overlay;
 import ij.gui.Roi;
 import ij.io.Opener;
 import ij.process.ImageProcessor;
@@ -35,15 +37,15 @@ public class ImageUtil {
         joinPicture(blankImp, oneImp, 3);
 
 
-        blankImp.setTitle("狼");
 
-        blankImp.show();
+//        blankImp.show();
 
-//      IJ.saveAs(blankImp, "jpeg", desktop+finished+UUID.randomUUID());
+      IJ.saveAs(blankImp, "jpeg", desktop+finished+UUID.randomUUID());
     }
 
     /**
      * 合成图片
+     *
      * @param blankImp
      * @param oneImp
      * @param type
@@ -81,33 +83,50 @@ public class ImageUtil {
         blankIp.insert(resize, xLoc, yLoc);
 
 
-//        blankIp.drawString("狼",100,200);
+        Font font = new Font("微软雅黑", Font.PLAIN, 300);// 添加字体的属性设置
+        blankIp.setFont(font);
+
+        int xWord = (int) (loc[2] * pixel);
+        int yWord = (int) (loc[3] * pixel);
+
+
+        blankIp.drawString("狼", xWord, yWord);
+
 
     }
 
     /**
      * 获取相对边距位置（cm）
+     *
      * @param type
      * @return
      */
     private static double[] getLoc(int type) {
-        double[] loc = new double[2];
+        double[] loc = new double[4];
         switch (type) {
             case 0:
                 loc[0] = 1.2;
                 loc[1] = 1.1;
+                loc[2] = 11;
+                loc[3] = 6.8;
                 break;
             case 1:
                 loc[0] = 16;
                 loc[1] = 1.1;
+                loc[2] = 26;
+                loc[3] = 6.8;
                 break;
             case 2:
                 loc[0] = 1.2;
                 loc[1] = 11.6;
+                loc[2] = 11;
+                loc[3] = 17;
                 break;
             case 3:
                 loc[0] = 16;
                 loc[1] = 11.6;
+                loc[2] = 26;
+                loc[3] = 17;
                 break;
             default:
         }
