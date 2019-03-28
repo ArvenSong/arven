@@ -1,5 +1,6 @@
 package cn.net.arven.client;
 
+import cn.net.arven.client.util.ImageUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -17,6 +18,11 @@ public class ClientApplication {
 
 	@RequestMapping("/")
 	public Object home(){
+//		try {
+//			ImageUtil.product();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		return "hello! this is a client!";
 	}
 }

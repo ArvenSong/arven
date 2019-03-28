@@ -2,13 +2,13 @@ package cn.net.arven.client.util;
 
 import ij.IJ;
 import ij.ImagePlus;
-import ij.ImageStack;
-import ij.gui.Overlay;
-import ij.gui.Roi;
 import ij.io.Opener;
 import ij.process.ImageProcessor;
 
 import java.awt.*;
+import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -19,29 +19,157 @@ import java.util.UUID;
  **/
 public class ImageUtil {
 
-    public static void main(String[] args) {
-        String desktop = "C:\\Users\\58273\\Desktop\\";
+    public static void product() {
+        String desktop = "C:\\";
         String a4blank = "picture\\A4blank.jpg";
+        String a4blankLabel = "picture\\labelBlank.jpg";
         String source = "picture\\source";
-        String sourceOne = "picture\\source\\狼.jpg";
-//        String sourceOne = "picture\\source\\鸽子.jpg";
+
         String finished = "picture\\finished\\";
         Opener opener = new Opener();
         ImagePlus blankImp = opener.openImage(desktop + a4blank);
-        ImagePlus oneImp = opener.openImage(desktop + sourceOne);
+        ImagePlus blankLabelImp = opener.openImage(desktop + a4blankLabel);
 
+        File folder = new File(desktop + source);
+        List<File> tempList = Arrays.asList(folder.listFiles());
 
-        joinPicture(blankImp, oneImp, 0);
-        joinPicture(blankImp, oneImp, 1);
-        joinPicture(blankImp, oneImp, 2);
-        joinPicture(blankImp, oneImp, 3);
+        for (File file : tempList) {
+            String name = file.getName().split("\\.")[0];
+            ImagePlus oneImp = opener.openImage(file.getAbsolutePath());
+            joinPicture(blankImp, oneImp, tempList.indexOf(file)%4, name);
+            joinLabel(blankLabelImp, tempList.indexOf(file) % 12, name);
+            if (tempList.indexOf(file)%4==3||tempList.indexOf(file)==tempList.size()-1){
+                IJ.saveAs(blankImp, "jpeg", desktop+finished+UUID.randomUUID());
+                blankImp.revert();
+            }
+            if (tempList.indexOf(file) % 12 == 11 || tempList.indexOf(file) == tempList.size() - 1) {
+                IJ.saveAs(blankLabelImp, "jpeg", desktop + finished + UUID.randomUUID());
+//                blankLabelImp.show();
+                blankLabelImp.revert();
+            }
 
-
-
-//        blankImp.show();
-
-      IJ.saveAs(blankImp, "jpeg", desktop+finished+UUID.randomUUID());
+        }
     }
+
+    /**
+     * 合成标签
+     *
+     * @param blankLabelImp
+     * @param index
+     * @param name
+     */
+    private static void joinLabel(ImagePlus blankLabelImp, int index, String name) {
+        ImageProcessor blankIp = blankLabelImp.getProcessor();
+        int xWord;
+        int yWord;
+        double pixel = 118.11;//像素/厘米
+        Font font = new Font("微软雅黑", Font.PLAIN, 300);// 添加字体的属性设置
+        blankIp.setFont(font);
+        double[] loc = getLabelLoc(index, name.length());
+
+        switch (name.length()) {
+            case 3:
+                xWord = (int) (loc[6] * pixel);
+                yWord = (int) (loc[7] * pixel);
+                blankIp.drawString(String.valueOf(name.charAt(2)), xWord, yWord);
+            case 2:
+                xWord = (int) (loc[4] * pixel);
+                yWord = (int) (loc[5] * pixel);
+                blankIp.drawString(String.valueOf(name.charAt(1)), xWord, yWord);
+            case 1:
+                xWord = (int) (loc[2] * pixel);
+                yWord = (int) (loc[3] * pixel);
+                blankIp.drawString(String.valueOf(name.charAt(0)), xWord, yWord);
+            default:
+        }
+
+    }
+
+    private static double[] getLabelLoc(int index, int nameLength) {
+        double[] loc = new double[10];
+        switch (index) {
+            case 0:
+                loc[0] = 1.2;
+                loc[1] = 1.1;
+                loc[2] = 1.3;
+                getLocTop(nameLength, loc);
+                break;
+            case 1:
+                loc[0] = 1.2;
+                loc[1] = 1.1;
+                loc[2] = 6.25;
+                getLocTop(nameLength, loc);
+                break;
+            case 2:
+                loc[0] = 1.2;
+                loc[1] = 1.1;
+                loc[2] = 11;
+                getLocTop(nameLength, loc);
+                break;
+
+
+            case 3:
+                loc[0] = 16;
+                loc[1] = 1.1;
+                loc[2] = 16.1;
+                getLocTop(nameLength, loc);
+
+                break;
+            case 4:
+                loc[0] = 16;
+                loc[1] = 1.1;
+                loc[2] = 21.1;
+                getLocTop(nameLength, loc);
+
+                break;
+            case 5:
+                loc[0] = 16;
+                loc[1] = 1.1;
+                loc[2] = 25.9;
+                getLocTop(nameLength, loc);
+
+                break;
+            case 6:
+                loc[0] = 1.2;
+                loc[1] = 11.6;
+                loc[2] = 1.3;
+                getLocBottom(nameLength, loc);
+                break;
+            case 7:
+                loc[0] = 1.2;
+                loc[1] = 11.6;
+                loc[2] = 6.25;
+                getLocBottom(nameLength, loc);
+                break;
+            case 8:
+                loc[0] = 1.2;
+                loc[1] = 11.6;
+                loc[2] = 11;
+                getLocBottom(nameLength, loc);
+                break;
+            case 9:
+                loc[0] = 16;
+                loc[1] = 11.6;
+                loc[2] = 16.1;
+                getLocBottom(nameLength, loc);
+                break;
+            case 10:
+                loc[0] = 16;
+                loc[1] = 11.6;
+                loc[2] = 21.1;
+                getLocBottom(nameLength, loc);
+                break;
+            case 11:
+                loc[0] = 16;
+                loc[1] = 11.6;
+                loc[2] = 25.9;
+                getLocBottom(nameLength, loc);
+                break;
+            default:
+        }
+        return loc;
+    }
+
 
     /**
      * 合成图片
@@ -50,12 +178,12 @@ public class ImageUtil {
      * @param oneImp
      * @param type
      */
-    private static void joinPicture(ImagePlus blankImp, ImagePlus oneImp, int type) {
+    private static void joinPicture(ImagePlus blankImp, ImagePlus oneImp, int type, String name) {
         ImageProcessor blankIp = blankImp.getProcessor();
         ImageProcessor oneIp = oneImp.getProcessor();
         int width = oneIp.getWidth();
         int height = oneIp.getHeight();
-        System.err.println("width:" + width + "\theight:" + height);
+//        System.err.println("width:" + width + "\theight:" + height);
         double pixel = 118.11;//像素/厘米
         double normWidth = 9.3;//标准图片缩放宽度cm
         double normHeight = 8.5;//标准图片缩放高度cm
@@ -63,7 +191,7 @@ public class ImageUtil {
         int newHeight = (int) (normHeight * pixel);
 
 
-        double[] loc = getLoc(type);
+        double[] loc = getLoc(type, name.length());
         int xLoc = (int) (loc[0] * pixel);//
         int yLoc = (int) (loc[1] * pixel);
         oneIp.setInterpolate(true);
@@ -77,22 +205,46 @@ public class ImageUtil {
             yLoc = (int) ((normHeight * pixel) / 2 + yLoc - (double) resize.getHeight() / 2);
         }
 
-        System.err.println("newWidth:" + resize.getWidth() + "\tnewHeight:" + resize.getHeight());
-        System.err.println("xLoc:" + xLoc + "\tyLoc:" + yLoc);
+//        System.err.println("newWidth:" + resize.getWidth() + "\tnewHeight:" + resize.getHeight());
+//        System.err.println("xLoc:" + xLoc + "\tyLoc:" + yLoc);
         blankIp.setInterpolate(true); // bilinear
         blankIp.insert(resize, xLoc, yLoc);
 
 
+        drawWord(name, blankIp, pixel, loc);
+
+
+    }
+
+    /**
+     * 插入文字
+     *
+     * @param name
+     * @param blankIp
+     * @param pixel
+     * @param loc
+     */
+    private static void drawWord(String name, ImageProcessor blankIp, double pixel, double[] loc) {
+        int xWord;
+        int yWord;
         Font font = new Font("微软雅黑", Font.PLAIN, 300);// 添加字体的属性设置
         blankIp.setFont(font);
 
-        int xWord = (int) (loc[2] * pixel);
-        int yWord = (int) (loc[3] * pixel);
-
-
-        blankIp.drawString("狼", xWord, yWord);
-
-
+        switch (name.length()) {
+            case 3:
+                xWord = (int) (loc[6] * pixel);
+                yWord = (int) (loc[7] * pixel);
+                blankIp.drawString(String.valueOf(name.charAt(2)), xWord, yWord);
+            case 2:
+                xWord = (int) (loc[4] * pixel);
+                yWord = (int) (loc[5] * pixel);
+                blankIp.drawString(String.valueOf(name.charAt(1)), xWord, yWord);
+            case 1:
+                xWord = (int) (loc[2] * pixel);
+                yWord = (int) (loc[3] * pixel);
+                blankIp.drawString(String.valueOf(name.charAt(0)), xWord, yWord);
+            default:
+        }
     }
 
     /**
@@ -101,36 +253,84 @@ public class ImageUtil {
      * @param type
      * @return
      */
-    private static double[] getLoc(int type) {
-        double[] loc = new double[4];
+    private static double[] getLoc(int type, int nameLength) {
+        double[] loc = new double[10];
         switch (type) {
             case 0:
                 loc[0] = 1.2;
                 loc[1] = 1.1;
                 loc[2] = 11;
-                loc[3] = 6.8;
+                getLocTop(nameLength, loc);
                 break;
             case 1:
                 loc[0] = 16;
                 loc[1] = 1.1;
-                loc[2] = 26;
-                loc[3] = 6.8;
+                loc[2] = 25.9;
+                getLocTop(nameLength, loc);
+
                 break;
             case 2:
                 loc[0] = 1.2;
                 loc[1] = 11.6;
                 loc[2] = 11;
-                loc[3] = 17;
+                getLocBottom(nameLength, loc);
                 break;
             case 3:
                 loc[0] = 16;
                 loc[1] = 11.6;
-                loc[2] = 26;
-                loc[3] = 17;
+                loc[2] = 25.9;
+                getLocBottom(nameLength, loc);
                 break;
             default:
         }
         return loc;
+    }
+
+    /**
+     * 第一横排y值相同
+     *
+     * @param nameLength
+     * @param loc
+     */
+    private static void getLocTop(int nameLength, double[] loc) {
+        if (nameLength == 1) {
+            loc[3] = 6.8;
+        } else if (nameLength == 2) {
+            loc[3] = 4.8;
+            loc[4] = loc[2];
+            loc[5] = 8.8;
+
+        } else if (nameLength == 3) {
+            loc[3] = 4.2;
+            loc[4] = loc[2];
+            loc[5] = 6.9;
+            loc[6] = loc[2];
+            loc[7] = 9.5;
+
+        }
+    }
+
+    /**
+     * 第二横排y值相同
+     *
+     * @param nameLength
+     * @param loc
+     */
+    private static void getLocBottom(int nameLength, double[] loc) {
+        if (nameLength == 1) {
+            loc[3] = 17;
+        } else if (nameLength == 2) {
+            loc[3] = 15.3;
+            loc[4] = loc[2];
+            loc[5] = 19.3;
+
+        } else if (nameLength == 3) {
+            loc[3] = 14.7;
+            loc[4] = loc[2];
+            loc[5] = 17.4;
+            loc[6] = loc[2];
+            loc[7] = 20;
+        }
     }
 
 }
