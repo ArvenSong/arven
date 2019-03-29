@@ -43,5 +43,24 @@
 		</dependency>
 
 	</dependencies>
-
+	<!--打包可运行jar-->
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<configuration>
+						<archive>
+							<manifest>
+								<mainClass>cn.net.arven.client.util.ImageUtil</mainClass>
+							</manifest>
+						</archive>
+						<classesDirectory>
+						</classesDirectory>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 </project>
