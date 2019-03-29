@@ -33,17 +33,35 @@ import com.lowagie.text.pdf.PdfWriter;
 public class ImageUtil {
 
     public static void main(String[] args) {
-        String desktop = "C:\\";
+        String desktop = "..\\";
         String a4blank = "picture\\A4blank.jpg";
         String a4blankLabel = "picture\\labelBlank.jpg";
         String source = "picture\\source";
 
         String finished = "picture\\finished\\";
         produce(desktop, a4blank, a4blankLabel, source, finished);
+        moveFiles(desktop + source);
+        System.out.println("运行成功！");
+        try {
+            java.awt.Desktop.getDesktop().open(new File(desktop + finished));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void moveFiles(String sourceFolder) {
+        File folder = new File(sourceFolder);
+        File bak = new File(sourceFolder+"\\..\\backup");
+        bak.mkdirs();
+        List<File> tempList = Arrays.asList(folder.listFiles());
+        for (File file : tempList) {
+            file.renameTo(new File(sourceFolder+"\\..\\backup\\"+file.getName()));
+        }
     }
 
     /**
      * 运行
+     *
      * @param rootFolder
      * @param a4blank
      * @param a4blankLabel
@@ -56,15 +74,16 @@ public class ImageUtil {
         ImagePlus blankLabelImp = opener.openImage(rootFolder + a4blankLabel);
 
         File folder = new File(rootFolder + source);
+        folder.mkdirs();
         List<File> tempList = Arrays.asList(folder.listFiles());
 
         for (File file : tempList) {
             String name = file.getName().split("\\.")[0];
             ImagePlus oneImp = opener.openImage(file.getAbsolutePath());
-            joinPicture(blankImp, oneImp, tempList.indexOf(file)%4, name);
+            joinPicture(blankImp, oneImp, tempList.indexOf(file) % 4, name);
             joinLabel(blankLabelImp, tempList.indexOf(file) % 12, name);
-            if (tempList.indexOf(file)%4==3||tempList.indexOf(file)==tempList.size()-1){
-                IJ.saveAs(blankImp, "jpeg", rootFolder +finished+UUID.randomUUID());
+            if (tempList.indexOf(file) % 4 == 3 || tempList.indexOf(file) == tempList.size() - 1) {
+                IJ.saveAs(blankImp, "jpeg", rootFolder + finished + UUID.randomUUID());
                 blankImp.revert();
             }
             if (tempList.indexOf(file) % 12 == 11 || tempList.indexOf(file) == tempList.size() - 1) {
@@ -74,7 +93,7 @@ public class ImageUtil {
             }
 
         }
-        toPdf(rootFolder + finished, rootFolder + finished+new Date().getTime()+".pdf");
+        toPdf(rootFolder + finished, rootFolder + finished + new Date().getTime() + ".pdf");
     }
 
     /**
@@ -361,12 +380,8 @@ public class ImageUtil {
 
 
     /**
-     *
-     * @param imageFolderPath
-     *            图片文件夹地址
-     * @param pdfPath
-     *            PDF文件保存地址
-     *
+     * @param imageFolderPath 图片文件夹地址
+     * @param pdfPath         PDF文件保存地址
      */
     public static void toPdf(String imageFolderPath, String pdfPath) {
         try {
