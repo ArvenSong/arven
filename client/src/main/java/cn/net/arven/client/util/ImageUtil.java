@@ -39,6 +39,7 @@ public class ImageUtil {
         String source = "picture\\source";
 
         String finished = "picture\\finished\\";
+        System.out.println("正在运行...");
         produce(desktop, a4blank, a4blankLabel, source, finished);
         moveFiles(desktop + source);
         System.out.println("运行成功！");
@@ -74,7 +75,9 @@ public class ImageUtil {
         ImagePlus blankLabelImp = opener.openImage(rootFolder + a4blankLabel);
 
         File folder = new File(rootFolder + source);
+        File finishedFolder = new File(rootFolder + finished);
         folder.mkdirs();
+        finishedFolder.mkdirs();
         List<File> tempList = Arrays.asList(folder.listFiles());
 
         for (File file : tempList) {
