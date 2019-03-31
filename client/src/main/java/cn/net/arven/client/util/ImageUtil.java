@@ -76,24 +76,28 @@ public class ImageUtil {
 
         File folder = new File(rootFolder + source);
         File finishedFolder = new File(rootFolder + finished);
-        folder.mkdirs();
-        finishedFolder.mkdirs();
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+        if (!finishedFolder.exists()) {
+            finishedFolder.mkdirs();
+        }
         List<File> tempList = Arrays.asList(folder.listFiles());
 
         for (File file : tempList) {
             String name = file.getName().split("\\.")[0];
             ImagePlus oneImp = opener.openImage(file.getAbsolutePath());
             joinPicture(blankImp, oneImp, tempList.indexOf(file) % 4, name);
-            joinLabel(blankLabelImp, tempList.indexOf(file) % 12, name);
+//            joinLabel(blankLabelImp, tempList.indexOf(file) % 12, name);
             if (tempList.indexOf(file) % 4 == 3 || tempList.indexOf(file) == tempList.size() - 1) {
                 IJ.saveAs(blankImp, "jpeg", rootFolder + finished + UUID.randomUUID());
                 blankImp.revert();
             }
-            if (tempList.indexOf(file) % 12 == 11 || tempList.indexOf(file) == tempList.size() - 1) {
-                IJ.saveAs(blankLabelImp, "jpeg", rootFolder + finished + UUID.randomUUID());
-//                blankLabelImp.show();
-                blankLabelImp.revert();
-            }
+//            if (tempList.indexOf(file) % 12 == 11 || tempList.indexOf(file) == tempList.size() - 1) {
+//                IJ.saveAs(blankLabelImp, "jpeg", rootFolder + finished + UUID.randomUUID());
+////                blankLabelImp.show();
+//                blankLabelImp.revert();
+//            }
 
         }
         toPdf(rootFolder + finished, rootFolder + finished + new Date().getTime() + ".pdf");
