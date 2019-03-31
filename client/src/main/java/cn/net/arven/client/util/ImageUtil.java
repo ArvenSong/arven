@@ -72,7 +72,7 @@ public class ImageUtil {
     private static void produce(String rootFolder, String a4blank, String a4blankLabel, String source, String finished) {
         Opener opener = new Opener();
         ImagePlus blankImp = opener.openImage(rootFolder + a4blank);
-        ImagePlus blankLabelImp = opener.openImage(rootFolder + a4blankLabel);
+//        ImagePlus blankLabelImp = opener.openImage(rootFolder + a4blankLabel);
 
         File folder = new File(rootFolder + source);
         File finishedFolder = new File(rootFolder + finished);
