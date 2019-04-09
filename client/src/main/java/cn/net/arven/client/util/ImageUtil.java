@@ -33,12 +33,12 @@ import com.lowagie.text.pdf.PdfWriter;
 public class ImageUtil {
 
     public static void main(String[] args) {
-        String desktop = "..\\";
-        String a4blank = "picture\\A4blank.jpg";
-        String a4blankLabel = "picture\\labelBlank.jpg";
-        String source = "picture\\source";
+        String desktop = "";
+        String a4blank = "A4blank.jpg";
+        String a4blankLabel = "labelBlank.jpg";
+        String source = "source";
 
-        String finished = "picture\\finished\\";
+        String finished = "finished\\";
         System.out.println("正在运行...");
         produce(desktop, a4blank, a4blankLabel, source, finished);
         moveFiles(desktop + source);
