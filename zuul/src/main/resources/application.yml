@@ -36,3 +36,6 @@ zuul:
     tally:
       path: /tally/**
       serviceId: tally
+    file:
+      path: /file/**
+      serviceId: file

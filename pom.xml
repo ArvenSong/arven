@@ -23,10 +23,12 @@
     </properties>
 
     <modules>
+        <module>common</module>
         <module>eureka</module>
         <module>client</module>
         <module>zuul</module>
         <module>tally</module>
+        <module>file</module>
     </modules>
     <dependencies>
         <dependency>
