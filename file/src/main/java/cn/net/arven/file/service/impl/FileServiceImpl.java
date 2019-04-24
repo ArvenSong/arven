@@ -16,10 +16,10 @@ import java.util.Date;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
- * @author 
+ * @author
  * @since 2018-12-22
  */
 @Service
@@ -34,7 +34,7 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
     }
 
     @Override
-    public String saveMultipartFile(MultipartFile file) throws IOException{
+    public String saveMultipartFile(MultipartFile file, String tag) throws IOException {
 
         if (file.isEmpty()) {
             throw new IOException("file is empty!");
@@ -52,6 +52,7 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
         fileEntity.setPath(Constant.BASE_PATH);
         fileEntity.setRealName(realName);
         fileEntity.setShowName(showName);
+        fileEntity.setTag(tag);
         fileEntity.setType(cn.net.arven.common.util.FileUtil.getFileType(file));
         return saveFile(fileEntity);
     }

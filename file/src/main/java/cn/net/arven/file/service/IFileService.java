@@ -23,5 +23,5 @@ public interface IFileService extends IService<File> {
      * @param file
      * @return
      */
-    String saveMultipartFile(MultipartFile file) throws IOException;
+    String saveMultipartFile(MultipartFile file,String tag) throws IOException;
 }

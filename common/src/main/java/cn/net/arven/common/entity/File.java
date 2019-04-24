@@ -1,11 +1,12 @@
 package cn.net.arven.common.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-
-import java.io.Serializable;
 import java.util.Date;
+import com.baomidou.mybatisplus.annotation.Version;
+import com.baomidou.mybatisplus.annotation.TableId;
+import java.io.Serializable;
+import javax.validation.constraints.NotNull;
 
 
 /**
@@ -14,9 +15,8 @@ import java.util.Date;
  * </p>
  *
  * @author 
- * @since 2018-12-22
+ * @since 2019-04-24
  */
-
 public class File extends Model<File> {
 
     private static final long serialVersionUID = 1L;
@@ -43,16 +43,22 @@ public class File extends Model<File> {
     private String realName;
 
         /**
+     * 创建者
+     */
+     
+    private String creator;
+
+        /**
      * 类型
      */
      
     private String type;
 
         /**
-     * 创建人
+     * 标签（多个用逗号隔开）
      */
      
-    private String creator;
+    private String tag;
 
         /**
      * 创建时间
@@ -61,10 +67,11 @@ public class File extends Model<File> {
     private Date createTime;
 
         /**
-     * 更新时间
+     * 修改时间
      */
      
     private Date updateTime;
+
 
     public String getId() {
         return id;
@@ -102,6 +109,15 @@ public class File extends Model<File> {
         return this;
     }
 
+    public String getCreator() {
+        return creator;
+    }
+
+    public File setCreator(String creator) {
+        this.creator = creator;
+        return this;
+    }
+
     public String getType() {
         return type;
     }
@@ -111,12 +127,12 @@ public class File extends Model<File> {
         return this;
     }
 
-    public String getCreator() {
-        return creator;
+    public String getTag() {
+        return tag;
     }
 
-    public File setCreator(String creator) {
-        this.creator = creator;
+    public File setTag(String tag) {
+        this.tag = tag;
         return this;
     }
 
@@ -146,9 +162,11 @@ public class File extends Model<File> {
 
     public static final String REAL_NAME = "real_name";
 
+    public static final String CREATOR = "creator";
+
     public static final String TYPE = "type";
 
-    public static final String CREATOR = "creator";
+    public static final String TAG = "tag";
 
     public static final String CREATE_TIME = "create_time";
 
@@ -166,8 +184,9 @@ public class File extends Model<File> {
         ", path=" + path +
         ", showName=" + showName +
         ", realName=" + realName +
-        ", type=" + type +
         ", creator=" + creator +
+        ", type=" + type +
+        ", tag=" + tag +
         ", createTime=" + createTime +
         ", updateTime=" + updateTime +
         "}";

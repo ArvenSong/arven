@@ -3,56 +3,69 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8"/>
-    <title>Title</title>
+    <title>文件上传</title>
     <link rel="stylesheet" href="/static/layui/css/layui.css" th:href="@{../layui/css/layui.css}" media="all"/>
     <script src="/static/layui/layui.all.js" th:src="@{../layui/layui.all.js}"></script>
     <script src="/static/js/jquery-3.2.1.min.js" th:src="@{../js/jquery-3.2.1.min.js}"></script>
     <style type="text/css">
-        span{
-            display: block;text-align: center;
+        span {
+            display: block;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 
-<div>
+<div style="margin-top: 100px;">
     <div>
         <input type="hidden" id="file"/>
         <span>
-        <button type="button" class="layui-btn" id="ticket">
-            <i class="layui-icon">&#xe67c;</i>上传文件
-        </button>
-
-        <p id="msg" style="text-align: center;color: #0000FF"></p>
-        <img src="#" id="picture" style="display: none;" width="200px"/>
-    </span>
+            标签tag：
+            <input type="text" id="tag"/>
+        </span>
+        <br/>
+        <span>
+            <button type="button" class="layui-btn" id="ticket">
+                <i class="layui-icon">&#xe67c;</i>上传文件
+            </button>
+            <br/>
+            <p id="msg" style="text-align: center;color: #0000FF"></p>
+            <br/>
+            <img src="#" id="picture" style="display: none;" width="200px"/>
+        </span>
     </div>
     <br/><br/>
-
 </div>
 <script>
 
-    layui.use('upload', function(){
+    layui.use('upload', function () {
         var upload = layui.upload;
 
         //执行实例
         var uploadInst = upload.render({
             elem: '#ticket' //绑定元素
-            ,multiple: true
-            ,url: '/upload' //上传接口
-            ,done: function(res){
+            , multiple: true
+            , accept: 'file'
+            , url: '/upload' //上传接口
+            ,data: { 'tag': function () {
+                    return $("#tag").val();
+                }}
+            , done: function (res) {
                 //上传完毕回调
                 var fileId = res.fileId;
                 $("#file").val(fileId);
                 $("#msg").text("文件已上传。");
-                $("#picture").css("display","");
-                $("#picture").attr("src","/view/breviary/"+fileId);
+                $("#picture").css("display", "");
+                $("#picture").attr("src", "/view/breviary/" + fileId);
 
                 layer.msg("上传成功！")
             }
-            ,error: function(){
+            , error: function () {
                 layer.msg("上传失败！")
-            }
+            },allDone: function(obj){ //当文件全部被提交后，才触发
+                var str = "得到总文件数: "+obj.total+"</br>请求成功的文件数: "+obj.successful+"</br>请求失败的文件数: "+obj.aborted;
+                $("#msg").html(str);
+        }
         });
     });
 </script>

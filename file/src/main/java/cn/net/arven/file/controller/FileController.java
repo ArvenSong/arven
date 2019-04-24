@@ -36,10 +36,10 @@ public class FileController {
 
 
     @RequestMapping("/upload")
-    public Object upload(MultipartFile file) throws IOException {
+    public Object upload(MultipartFile file, String tag) throws IOException {
 
         Map<String, Object> map = new HashMap<>();
-        map.put("fileId", fileService.saveMultipartFile(file));
+        map.put("fileId", fileService.saveMultipartFile(file, tag));
         return map;
 
     }
@@ -49,14 +49,11 @@ public class FileController {
     public ResponseEntity viewTruth(@PathVariable String fileId, HttpServletResponse response) throws IOException {
 
         File fileEntity = fileService.getById(fileId);
-        if (!Constant.FILE_TYPE_IMAGE.equals(fileEntity.getType())) {
-            return null;
-        }
 
         java.io.File file = new java.io.File(fileEntity.getPath() + fileEntity.getRealName());
         InputStream in = new FileInputStream(file);
         ServletOutputStream out = response.getOutputStream();
-        response.setContentType("image/" + fileEntity.getType());
+        response.setContentType(fileEntity.getType()+"/" + fileEntity.getType());
         int count;
         byte[] buffer = new byte[1024 * 8];
         while ((count = in.read(buffer)) != -1) {
@@ -72,13 +69,14 @@ public class FileController {
         return null;
 
     }
+
     @RequestMapping("/view/breviary/{fileId}")
     @ResponseBody
     public ResponseEntity breviary(@PathVariable String fileId, HttpServletResponse response) throws IOException {
 
         File fileEntity = fileService.getById(fileId);
         if (!Constant.FILE_TYPE_IMAGE.equals(fileEntity.getType())) {
-            return null;
+            fileEntity = fileService.getById(Constant.NO_PICTURE_ID);
         }
         java.io.File file = new java.io.File(fileEntity.getPath() + fileEntity.getRealName());
         ServletOutputStream out = response.getOutputStream();
