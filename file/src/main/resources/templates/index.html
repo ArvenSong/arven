@@ -31,12 +31,19 @@
             <br/>
             <p id="msg" style="text-align: center;color: #0000FF"></p>
             <br/>
-            <img src="#" id="picture" style="display: none;" width="200px"/>
+            <a id="source" title="点击查看原图" target="_blank">
+                <img src="#" id="picture" style="display: none;" width="200px"/>
+            </a>
         </span>
     </div>
     <br/><br/>
 </div>
-<script>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    ctxPath = /*[[@{/}]]*/ '';
+    /*]]>*/
+
+
 
     layui.use('upload', function () {
         var upload = layui.upload;
@@ -46,7 +53,7 @@
             elem: '#ticket' //绑定元素
             , multiple: true
             , accept: 'file'
-            , url: '/upload' //上传接口
+            , url: ctxPath+'upload' //上传接口
             ,data: { 'tag': function () {
                     return $("#tag").val();
                 }}
@@ -56,8 +63,9 @@
                 $("#file").val(fileId);
                 $("#msg").text("文件已上传。");
                 $("#picture").css("display", "");
-                $("#picture").attr("src", "/view/breviary/" + fileId);
-
+                $("#picture").attr("src", ctxPath+"view/breviary/" + fileId);
+                $("#source").attr("href", ctxPath+"view/truth/" + fileId);
+                
                 layer.msg("上传成功！")
             }
             , error: function () {

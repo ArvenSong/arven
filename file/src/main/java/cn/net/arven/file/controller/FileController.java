@@ -60,7 +60,8 @@ public class FileController {
     @RequestMapping("/view/truth/{fileId}")
     public Object viewTruth(@PathVariable String fileId, ModelAndView modelAndView) {
         modelAndView.setViewName("view.html");
-        modelAndView.getModel().put("fileId",fileId);
+        File file = fileService.getById(fileId);
+        modelAndView.getModel().put("file",file);
         return modelAndView;
     }
 

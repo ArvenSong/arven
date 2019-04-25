@@ -12,7 +12,15 @@
 
 <div>
 
-    <img th:src="@{'/download/'+${fileId}}">
+    <img th:src="@{'/download/'+${file.id}}">
 </div>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    var showName = /*[[${file.showName}]]*/ '';
+    /*]]>*/
+
+    document.title = showName;
+
+</script>
 </body>
 </html>
