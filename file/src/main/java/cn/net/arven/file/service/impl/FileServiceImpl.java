@@ -1,10 +1,9 @@
 package cn.net.arven.file.service.impl;
 
 
-import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.io.FileUtil;
 import cn.net.arven.common.constant.Constant;
 import cn.net.arven.common.entity.File;
+import cn.net.arven.common.util.FileUtil;
 import cn.net.arven.file.dao.FileDao;
 import cn.net.arven.file.service.IFileService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -41,8 +40,7 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
         }
 
         String showName = file.getOriginalFilename();
-        String extensionName = showName.substring(showName.lastIndexOf('.'), showName.length());
-        String realName = DateUtil.format(new Date(), "yyyyMMddHHmmssSSS") + extensionName;
+        String realName = FileUtil.newDateName(showName);
         java.io.File dest = new java.io.File(Constant.BASE_PATH + realName);
         if (!dest.getParentFile().exists()) { //判断文件父目录是否存在
             dest.getParentFile().mkdirs();

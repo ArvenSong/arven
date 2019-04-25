@@ -1,0 +1,18 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8"/>
+    <title>文件上传</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css" th:href="@{/layui/css/layui.css}" media="all"/>
+    <script src="/static/layui/layui.all.js" th:src="@{/layui/layui.all.js}"></script>
+    <script src="/static/js/jquery-3.2.1.min.js" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+</head>
+<body>
+
+<div>
+
+    <img th:src="@{'/download/'+${fileId}}">
+</div>
+</body>
+</html>
