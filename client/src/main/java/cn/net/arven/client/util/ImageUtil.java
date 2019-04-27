@@ -37,8 +37,9 @@ public class ImageUtil {
         String a4blank = "A4blank.jpg";
         String a4blankLabel = "labelBlank.jpg";
         String source = "source";
-
         String finished = "finished\\";
+        String dictionaries = "字典.txt";
+        PinYinUtil.init(desktop+dictionaries);
         System.out.println("正在运行...");
         produce(desktop, a4blank, a4blankLabel, source, finished);
         moveFiles(desktop + source);
@@ -91,6 +92,8 @@ public class ImageUtil {
 //            joinLabel(blankLabelImp, tempList.indexOf(file) % 12, name);
             if (tempList.indexOf(file) % 4 == 3 || tempList.indexOf(file) == tempList.size() - 1) {
                 IJ.saveAs(blankImp, "jpeg", rootFolder + finished + UUID.randomUUID());
+//                blankImp.show();
+//                break;
                 blankImp.revert();
             }
 //            if (tempList.indexOf(file) % 12 == 11 || tempList.indexOf(file) == tempList.size() - 1) {
@@ -279,22 +282,33 @@ public class ImageUtil {
     private static void drawWord(String name, ImageProcessor blankIp, double pixel, double[] loc) {
         int xWord;
         int yWord;
-        Font font = new Font("微软雅黑", Font.PLAIN, 300);// 添加字体的属性设置
-        blankIp.setFont(font);
+        Font font = new Font("微软雅黑", Font.PLAIN, 200);// 添加字体的属性设置
+        Font pinYinFont = new Font("Calibri", Font.PLAIN, 120);// 添加字体的属性设置
 
+        String[] pinYin = PinYinUtil.toPinyin(name).split(",");
+        pinYin = PinYinUtil.config(pinYin);
         switch (name.length()) {
             case 3:
                 xWord = (int) (loc[6] * pixel);
                 yWord = (int) (loc[7] * pixel);
+                blankIp.setFont(font);
                 blankIp.drawString(String.valueOf(name.charAt(2)), xWord, yWord);
+                blankIp.setFont(pinYinFont);
+                blankIp.drawString(pinYin[2], xWord, (int)(yWord-1.9*pixel));
             case 2:
                 xWord = (int) (loc[4] * pixel);
                 yWord = (int) (loc[5] * pixel);
+                blankIp.setFont(font);
                 blankIp.drawString(String.valueOf(name.charAt(1)), xWord, yWord);
+                blankIp.setFont(pinYinFont);
+                blankIp.drawString(pinYin[1], xWord, (int)(yWord-1.9*pixel));
             case 1:
                 xWord = (int) (loc[2] * pixel);
                 yWord = (int) (loc[3] * pixel);
+                blankIp.setFont(font);
                 blankIp.drawString(String.valueOf(name.charAt(0)), xWord, yWord);
+                blankIp.setFont(pinYinFont);
+                blankIp.drawString(pinYin[0], xWord, (int)(yWord-1.9*pixel));
             default:
         }
     }
@@ -311,26 +325,26 @@ public class ImageUtil {
             case 0:
                 loc[0] = 1.2;
                 loc[1] = 1.1;
-                loc[2] = 11;
+                loc[2] = 11.5;
                 getLocTop(nameLength, loc);
                 break;
             case 1:
                 loc[0] = 16;
                 loc[1] = 1.1;
-                loc[2] = 25.9;
+                loc[2] = 26.4;
                 getLocTop(nameLength, loc);
 
                 break;
             case 2:
                 loc[0] = 1.2;
                 loc[1] = 11.6;
-                loc[2] = 11;
+                loc[2] = 11.5;
                 getLocBottom(nameLength, loc);
                 break;
             case 3:
                 loc[0] = 16;
                 loc[1] = 11.6;
-                loc[2] = 25.9;
+                loc[2] = 26.4;
                 getLocBottom(nameLength, loc);
                 break;
             default:
