@@ -7,10 +7,18 @@ import cn.net.arven.common.util.FileUtil;
 import cn.net.arven.file.dao.FileDao;
 import cn.net.arven.file.service.IFileService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.drew.imaging.jpeg.JpegMetadataReader;
+import com.drew.imaging.jpeg.JpegProcessingException;
+import com.drew.metadata.Directory;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.Tag;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -24,9 +32,14 @@ import java.util.Date;
 @Service
 public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFileService {
 
+    //nikon
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
+
     @Override
     public String saveFile(File fileEntity) {
-        fileEntity.setCreateTime(new Date());
+        if (fileEntity.getCreateTime() == null) {
+            fileEntity.setCreateTime(new Date());
+        }
         fileEntity.setCreator("001");
         baseMapper.insert(fileEntity);
         return fileEntity.getId();
@@ -52,6 +65,20 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
         fileEntity.setShowName(showName);
         fileEntity.setTag(tag);
         fileEntity.setType(cn.net.arven.common.util.FileUtil.getFileType(file));
+        if (Constant.FILE_TYPE_IMAGE.equals(fileEntity.getType())) {
+            try {
+                Metadata metadata = JpegMetadataReader.readMetadata(new java.io.File(fileEntity.getPath() + fileEntity.getRealName()));
+                for (Directory directory : metadata.getDirectories()) {
+                    for (Tag t : directory.getTags()) {
+                        if ("Date/Time".equals(t.getTagName())) {
+                            fileEntity.setCreateTime(simpleDateFormat.parse(t.getDescription()));
+                            break;
+                        }
+                    }
+                }
+            } catch (Exception e) {
+            }
+        }
         return saveFile(fileEntity);
     }
 }
