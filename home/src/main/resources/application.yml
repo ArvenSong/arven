@@ -1,12 +1,18 @@
 server:
-  port: 8764
-  compression:
+  port: 443
+  ssl:
     enabled: true
-    mime-types: application/json,application/xml,text/html,text/xml,text/plain
+    key-store: /opt/your-name.jks
+    key-store-password: 19930308you
+    key-store-type: JKS
+    key-alias: 1
+  compression:
+      enabled: true
+      mime-types: application/json,application/xml,text/html,text/xml,text/plain
 
 spring:
   application:
-    name: file
+    name: home
   servlet:
     multipart:
       max-file-size: 10MB
