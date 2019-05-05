@@ -29,7 +29,7 @@
         <module>zuul</module>
         <module>tally</module>
         <module>file</module>
-        <module>photography</module>
+        <module>home</module>
     </modules>
     <dependencies>
         <dependency>

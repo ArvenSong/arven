@@ -20,5 +20,19 @@ public class Constant {
     public static final String FILE_TYPE_IMAGE = "image";
     public static final String FILE_TYPE_APPLICATION = "application";
 
+    //文件标签
+    public static final String FILE_TAG_BANNER = "banner";
+
+
+    public static final int BANNER_SIZE = 12;
+
+
+    //图片文件请求地址
+    public static final String FILE_SERVICE_URL = "http://localhost:8764/";
+    public static final String FILE_SERVICE_URL_BREVIARY = FILE_SERVICE_URL + "view/breviary/";
+    public static final String FILE_SERVICE_URL_TRUTH = FILE_SERVICE_URL + "view/truth/";
+    public static final String FILE_SERVICE_URL_BANNER = FILE_SERVICE_URL + "banner/";
+    public static final String FILE_SERVICE_URL_DOWNLOAD = FILE_SERVICE_URL + "download/";
+
 
 }

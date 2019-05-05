@@ -61,7 +61,7 @@ public class FileController {
     public Object viewTruth(@PathVariable String fileId, ModelAndView modelAndView) {
         modelAndView.setViewName("view.html");
         File file = fileService.getById(fileId);
-        modelAndView.getModel().put("file",file);
+        modelAndView.getModel().put("file", file);
         return modelAndView;
     }
 
@@ -85,11 +85,12 @@ public class FileController {
         response.setContentType(fileEntity.getType() + "/" + FileUtil.getExtensionName(fileName));
         response.setHeader("content-disposition", "attachment;filename="
                 + URLEncoder.encode(fileName, "UTF-8"));
-        Thumbnails.of(file).size(160, 160).toOutputStream(out);
+        Thumbnails.of(file).size(320, 320).toOutputStream(out);
     }
 
     /**
      * 下载文件
+     *
      * @param fileId
      * @param response
      * @throws IOException
@@ -103,5 +104,27 @@ public class FileController {
         response.setContentType(fileEntity.getType() + "/" + FileUtil.getExtensionName(fileName));
         response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
         FileUtil.writeToStream(file, out);
+    }
+
+    /**
+     * 下载文件
+     *
+     * @param fileId
+     * @param response
+     * @throws IOException
+     */
+    @RequestMapping("/banner/{fileId}")
+    public void banner(@PathVariable String fileId, HttpServletResponse response) throws IOException {
+        File fileEntity = fileService.getById(fileId);
+        if (!Constant.FILE_TYPE_IMAGE.equals(fileEntity.getType())) {
+            fileEntity = fileService.getById(Constant.NO_PICTURE_ID);
+        }
+        String fileName = FileUtil.newDateName(fileEntity.getShowName());
+        java.io.File file = new java.io.File(fileEntity.getPath() + fileEntity.getRealName());
+        ServletOutputStream out = response.getOutputStream();
+        response.setContentType(fileEntity.getType() + "/" + FileUtil.getExtensionName(fileName));
+        response.setHeader("content-disposition", "attachment;filename="
+                + URLEncoder.encode(fileName, "UTF-8"));
+        Thumbnails.of(file).size(1680, 750).toOutputStream(out);
     }
 }
