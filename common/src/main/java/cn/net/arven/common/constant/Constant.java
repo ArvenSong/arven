@@ -28,7 +28,7 @@ public class Constant {
 
 
     //图片文件请求地址
-    public static final String FILE_SERVICE_URL = "http://localhost:8764/";
+    public static final String FILE_SERVICE_URL = "http://arven.net.cn:8764/";
     public static final String FILE_SERVICE_URL_BREVIARY = FILE_SERVICE_URL + "view/breviary/";
     public static final String FILE_SERVICE_URL_TRUTH = FILE_SERVICE_URL + "view/truth/";
     public static final String FILE_SERVICE_URL_BANNER = FILE_SERVICE_URL + "banner/";
