@@ -5,6 +5,7 @@ import cn.net.arven.common.entity.File;
 import cn.net.arven.common.util.FileUtil;
 import cn.net.arven.file.service.IFileService;
 import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -45,6 +47,7 @@ public class FileController {
     @RequestMapping("/upload")
     @ResponseBody
     public Object upload(MultipartFile file, String tag) throws IOException {
+        System.gc();
         Map<String, Object> map = new HashMap<>();
         map.put("fileId", fileService.saveMultipartFile(file, tag));
         return map;
@@ -59,6 +62,7 @@ public class FileController {
      */
     @RequestMapping("/view/truth/{fileId}")
     public Object viewTruth(@PathVariable String fileId, ModelAndView modelAndView) {
+        System.gc();
         modelAndView.setViewName("view.html");
         File file = fileService.getById(fileId);
         modelAndView.getModel().put("file", file);
@@ -75,6 +79,7 @@ public class FileController {
      */
     @RequestMapping("/view/breviary/{fileId}")
     public void breviary(@PathVariable String fileId, HttpServletResponse response) throws IOException {
+        System.gc();
         File fileEntity = fileService.getById(fileId);
         if (!Constant.FILE_TYPE_IMAGE.equals(fileEntity.getType())) {
             fileEntity = fileService.getById(Constant.NO_PICTURE_ID);
@@ -85,7 +90,7 @@ public class FileController {
         response.setContentType(fileEntity.getType() + "/" + FileUtil.getExtensionName(fileName));
         response.setHeader("content-disposition", "attachment;filename="
                 + URLEncoder.encode(fileName, "UTF-8"));
-        Thumbnails.of(file).size(320, 320).toOutputStream(out);
+        Thumbnails.of(file).size(120, 90).toOutputStream(out);
     }
 
     /**
@@ -97,6 +102,7 @@ public class FileController {
      */
     @RequestMapping("/download/{fileId}")
     public void download(@PathVariable String fileId, HttpServletResponse response) throws IOException {
+        System.gc();
         File fileEntity = fileService.getById(fileId);
         String fileName = FileUtil.newDateName(fileEntity.getShowName());
         java.io.File file = new java.io.File(fileEntity.getPath() + fileEntity.getRealName());
@@ -115,6 +121,7 @@ public class FileController {
      */
     @RequestMapping("/banner/{fileId}")
     public void banner(@PathVariable String fileId, HttpServletResponse response) throws IOException {
+        System.gc();
         File fileEntity = fileService.getById(fileId);
         if (!Constant.FILE_TYPE_IMAGE.equals(fileEntity.getType())) {
             fileEntity = fileService.getById(Constant.NO_PICTURE_ID);
@@ -125,6 +132,7 @@ public class FileController {
         response.setContentType(fileEntity.getType() + "/" + FileUtil.getExtensionName(fileName));
         response.setHeader("content-disposition", "attachment;filename="
                 + URLEncoder.encode(fileName, "UTF-8"));
-        Thumbnails.of(file).size(1680, 750).toOutputStream(out);
+        Thumbnails.of(file).size(1680,750).watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new java.io.File("/opt/data/file/watermark.png")), 0.5f)
+                .outputQuality(0.5f).toOutputStream(out);
     }
 }

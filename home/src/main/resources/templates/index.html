@@ -3,7 +3,7 @@
 >
 
 <head>
-    <title>Home</title>
+    <title>Arven丶宋のサイト</title>
     <!-- custom-theme -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -45,7 +45,7 @@
             <div th:each="banner : ${banner}"
                  th:class="${bannerStat.index==1?'gallery\_\_img-block  current':'gallery\_\_img-block  '}">
                 <span class="" th:text="${banner.showName}">showName</span>
-                <img th:src="${bannerUrl+banner.id}" th:thumb-url="${breviary+banner.id}" alt=""/>
+                <a th:href="${truth+banner.id}" target="_blank"><img th:src="${bannerUrl+banner.id}" th:thumb-url="${breviary+banner.id}" alt="" /></a>
             </div>
 
             <div class="gallery__controls">
@@ -60,11 +60,9 @@
             <nav>
                 <ul>
                     <li><a href="#home" class="active scroll">Home</a></li>
-                    <li><a href="#welcome" class="scroll">About</a></li>
-                    <li><a href="#team" class="scroll">Team</a></li>
-                    <li><a href="#services" class="scroll">Services</a></li>
+
                     <li><a href="#portfolio" class="scroll">Gallery</a></li>
-                    <li><a href="#contact" class="scroll">Contact</a></li>
+                    <li><a href="#welcome" class="scroll">About</a></li>
                 </ul>
             </nav>
         </div>
@@ -77,282 +75,75 @@
     </div>
 </div>
 <!-- //banner -->
-<!-- /about -->
-<div class="about" id="welcome">
+<!-- agile_testimonials -->
+<div class="agile_testimonials" id="testimonials">
     <div class="container">
-        <div class="wthree_head_section">
-            <h2>We Are Beauty Hunters !</h2>
-            <h3 class="agile_tittle"><i class="fa fa-bullhorn" aria-hidden="true"></i> <span>About</span>Photography
+        <div class="wthree_head_section test">
+            <h3 class="agile_tittle"><i class="fa fa-bullhorn" aria-hidden="true"></i> <span>Our</span> Testimonials
             </h3>
         </div>
+
         <div class="agile_wthree_inner_grids">
-
-            <div class="col-md-6 about_agileinfo">
-                <h4>Start Something New</h4>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                    industry's standard
-                    dummy text ever since the 1500s but also the leap into electronic typesetting dolor amet.</p>
-
-                <p>Integer laoreet ultricies nunc, vitae eleifend elit rutrum sit amet. In elementum, magna id
-                    pellentesque auctor, risus
-                    dolor congue urna, nec dapibus eros magna a odio. Duis laoreet risus eget malesuada consequat. Nunc
-                    et tortor dignissim,
-                    laoreet est eget</p>
-                <div class="agileits-button two">
-                    <a class="btn btn-primary btn-lg scroll" data-toggle="modal" data-target="#myModal4" href="#"
-                       role="button">Read More »</a>
+            <div class="test-gri1">
+                <div id="owl-demo2" class="owl-carousel">
+                    <div class="agile">
+                        <div class="test-grid">
+                            <div class="col-md-9 test-grid1">
+                                <i class="fa fa-quote-left" aria-hidden="true"></i>
+                                <p class="para-w3-agile">Lorem ipsum dolor sit amet, consectetur adipiscing
+                                    elit,consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                                    ut labore et dolore magna aliqua sed do eiusmod tempor incididunt ut labore et
+                                    dolore magna aliqua. Ut enim ad
+                                    minim veniam, quis. Lorem ipsum dolor .</p>
+                                <h4>Steve Warner</h4>
+                            </div>
+                            <div class="col-md-3 test-grid2">
+                                <img src="images/t1.jpg" alt="" class="img-r">
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="agile">
+                        <div class="test-grid">
+                            <div class="col-md-9 test-grid1">
+                                <i class="fa fa-quote-left" aria-hidden="true"></i>
+                                <p class="para-w3-agile">Lorem ipsum dolor sit amet, consectetur adipiscing
+                                    elit,consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                                    ut labore et dolore magna aliqua sed do eiusmod tempor incididunt ut labore et
+                                    dolore magna aliqua. Ut enim ad
+                                    minim veniam, quis. Lorem ipsum dolor.</p>
+                                <h4>Andery</h4>
+                            </div>
+                            <div class="col-md-3 test-grid2">
+                                <img src="images/t2.jpg" alt="" class="img-r">
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="agile">
+                        <div class="test-grid">
+                            <div class="col-md-9 test-grid1">
+                                <i class="fa fa-quote-left" aria-hidden="true"></i>
+                                <p class="para-w3-agile">Lorem ipsum dolor sit amet, consectetur adipiscing
+                                    elit,consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                                    ut labore et dolore magna aliqua sed do eiusmod tempor incididunt ut labore et
+                                    dolore magna aliqua. Ut enim ad
+                                    minim veniam, quis. Lorem ipsum dolor .</p>
+                                <h4>Williams</h4>
+                            </div>
+                            <div class="col-md-3 test-grid2">
+                                <img src="images/t3.jpg" alt="" class="img-r">
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6 about_agileinfo_grid_imgs">
-                <img src="images/banner1.jpg" alt=""/>
-                <img src="images/banner6.jpg" alt=""/>
-            </div>
-            <div class="clearfix"></div>
         </div>
     </div>
 </div>
-<!-- Modal4 -->
-<div class="modal fade" id="myModal4" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <div class="modal-info">
-                    <h4>青空乐</h4>
-                    <img src="images/banner2.jpg" alt=" " class="img-responsive"/>
-                    <h5>Sub heading here</h5>
-                    <p class="para-agileits-w3layouts">Duis sit amet nisi quis leo fermentum vestibulum vitae eget
-                        augue. Nulla quam nunc, vulputate id urna at, tempor tincidunt
-                        metus. Sed feugiat quam nec mauris mattis malesuada.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- //Modal4 -->
-
-<!--//about -->
 <!-- stats -->
-<div class="stats" id="stats">
-    <div class="container">
-        <div class="wthree_head_section">
-            <h3 class="agile_tittle"><i class="fa fa-bullhorn" aria-hidden="true"></i> <span>Our</span>Achivements</h3>
-        </div>
-        <div class="agile_wthree_inner_grids">
-            <div class="col-md-3 w3layouts_stats_left w3_counter_grid">
-                <i class="fa fa-smile-o" aria-hidden="true"></i>
-                <p class="counter">45</p>
-                <h3>Happy Clients</h3>
-            </div>
-            <div class="col-md-3 w3layouts_stats_left w3_counter_grid1">
-                <i class="fa fa-instagram" aria-hidden="true"></i>
-                <p class="counter">165</p>
-                <h3>Instagram</h3>
-            </div>
-            <div class="col-md-3 w3layouts_stats_left w3_counter_grid2">
-                <i class="fa fa-camera" aria-hidden="true"></i>
-                <p class="counter">563</p>
-                <h3>Photos Taken</h3>
-            </div>
-            <div class="col-md-3 w3layouts_stats_left w3_counter_grid3">
-                <i class="fa fa-star-o" aria-hidden="true"></i>
-                <p class="counter">245</p>
-                <h3>Rated Us</h3>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-    </div>
-</div>
-<!-- //stats -->
-<!--skills -->
-<div class="skills-agileinfo" id="skills">
-    <div class="col-md-6 skills">
-
-    </div>
-    <div class="col-md-6 bar-grids  w3-agile">
-        <div class="wthree_head_section two">
-            <h3 class="agile_tittle two"><i class="fa fa-bar-chart" aria-hidden="true"></i> <span>Our</span>Skills</h3>
-        </div>
-        <div class="wthree_skills">
-            <h6>EDITING<span> 95% </span></h6>
-            <div class="progress">
-                <div class="progress-bar progress-bar-striped active" style="width: 95%">
-                </div>
-            </div>
-            <h6>MARKETING<span> 85% </span></h6>
-            <div class="progress">
-                <div class="progress-bar progress-bar-striped active" style="width: 85%">
-                </div>
-            </div>
-            <h6>Photos Taken<span> 95% </span></h6>
-            <div class="progress">
-                <div class="progress-bar progress-bar-striped active" style="width: 95%">
-                </div>
-            </div>
-            <h6>CREATIVITY<span>90% </span></h6>
-            <div class="progress">
-                <div class="progress-bar progress-bar-striped active" style="width: 90%">
-                </div>
-            </div>
-            <h6>PROFESSIONAL<span>86% </span></h6>
-            <div class="progress prgs-w3agile-last">
-                <div class="progress-bar progress-bar-striped active" style="width: 86%">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="clearfix"></div>
-</div>
-<!-- //skills -->
-<!-- team -->
-<div id="team" class="team featured_services">
-    <div class="container">
-        <div class="wthree_head_section">
-            <h3 class="agile_tittle"><i class="fa fa-bullhorn" aria-hidden="true"></i> <span>Our</span>Photographers
-            </h3>
-        </div>
-        <div class="agile_wthree_inner_grids">
-            <div class="col-md-4 w3_agile_team_grid_info">
-                <img src="images/t1.jpg" alt=" " class="img-responsive"/>
-                <h3>Jane Mycle </h3>
-                <p>Photographer</p>
-                <div class="agileits_w3layouts_nav_right team_agile _icons">
-                    <ul>
-                        <li><a href="#" class="w3_agile_facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                        </li>
-                        <li><a href="#" class="agile_twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                        <li><a href="#" class="w3_agile_dribble"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
-                        </li>
-
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-4 w3_agile_team_grid_info">
-                <img src="images/t2.jpg" alt=" " class="img-responsive"/>
-                <h3>Amanda Seylon </h3>
-                <p>Photographer</p>
-                <div class="agileits_w3layouts_nav_right team_agile _icons">
-                    <ul>
-                        <li><a href="#" class="w3_agile_facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                        </li>
-                        <li><a href="#" class="agile_twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                        <li><a href="#" class="w3_agile_dribble"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
-                        </li>
-
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-4 w3_agile_team_grid_info">
-                <img src="images/t3.jpg" alt=" " class="img-responsive"/>
-                <h3>Laura Mark</h3>
-                <p>Photographer</p>
-                <div class="agileits_w3layouts_nav_right team_agile _icons">
-                    <ul>
-                        <li><a href="#" class="w3_agile_facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                        </li>
-                        <li><a href="#" class="agile_twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                        <li><a href="#" class="w3_agile_dribble"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
-                        </li>
-
-                    </ul>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-    </div>
-</div>
-<!-- team -->
-
-<!-- services -->
-<div class="services" id="services">
-    <div class="container">
-        <div class="wthree_head_section">
-            <h3 class="agile_tittle"><i class="fa fa-cogs" aria-hidden="true"></i> <span>Our</span>Services</h3>
-        </div>
-        <div class="agile_wthree_inner_grids">
-            <div class="col-md-4 w3-agileits-services-left">
-                <div class="services-info">
-
-                </div>
-            </div>
-            <div class="col-md-8 w3-agileits-services-right">
-                <div class="services-right-grids">
-                    <div class="col-sm-6 services-right-grid">
-                        <div class="services-icon hvr-radial-in">
-                            <i class="fa fa-anchor" aria-hidden="true"></i>
-                        </div>
-                        <div class="services-icon-info">
-                            <h5>Phasellus suscipit</h5>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed orci enim, posuere sed
-                                tincidunt et.</p>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 services-right-grid">
-                        <div class="services-icon hvr-radial-in">
-                            <i class="fa fa-comment" aria-hidden="true"></i>
-                        </div>
-                        <div class="services-icon-info">
-                            <h5>Phasellus suscipit</h5>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed orci enim, posuere sed
-                                tincidunt et.</p>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="services-right-grids">
-                    <div class="col-sm-6 services-right-grid">
-                        <div class="services-icon hvr-radial-in">
-                            <i class="fa fa-heartbeat" aria-hidden="true"></i>
-                        </div>
-                        <div class="services-icon-info">
-                            <h5>Phasellus suscipit</h5>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed orci enim, posuere sed
-                                tincidunt et.</p>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 services-right-grid">
-                        <div class="services-icon hvr-radial-in">
-                            <i class="fa fa-magnet" aria-hidden="true"></i>
-                        </div>
-                        <div class="services-icon-info">
-                            <h5>Phasellus suscipit</h5>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed orci enim, posuere sed
-                                tincidunt et.</p>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="services-right-grids">
-                    <div class="col-sm-6 services-right-grid">
-                        <div class="services-icon hvr-radial-in">
-                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-                        </div>
-                        <div class="services-icon-info">
-                            <h5>Phasellus suscipit</h5>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed orci enim, posuere sed
-                                tincidunt et.</p>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 services-right-grid">
-                        <div class="services-icon hvr-radial-in">
-                            <i class="fa fa-heartbeat" aria-hidden="true"></i>
-                        </div>
-                        <div class="services-icon-info">
-                            <h5>Phasellus suscipit</h5>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed orci enim, posuere sed
-                                tincidunt et.</p>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-    </div>
-</div>
-<!-- //services -->
+<
 <!-- //services -->
 <div class="portfolio-agileinfo" id="portfolio">
     <div class="container">
@@ -435,114 +226,64 @@
     </div>
 </div>
 <!--// Gallery -->
-<!-- agile_testimonials -->
-<div class="agile_testimonials" id="testimonials">
+<!-- /about -->
+<div class="about" id="welcome">
     <div class="container">
-        <div class="wthree_head_section test">
-            <h3 class="agile_tittle"><i class="fa fa-bullhorn" aria-hidden="true"></i> <span>Our</span> Testimonials
+        <div class="wthree_head_section">
+            <h2>We Are Beauty Hunters !</h2>
+            <h3 class="agile_tittle"><i class="fa fa-bullhorn" aria-hidden="true"></i> <span>About</span>Photography
             </h3>
         </div>
-
         <div class="agile_wthree_inner_grids">
-            <div class="test-gri1">
-                <div id="owl-demo2" class="owl-carousel">
-                    <div class="agile">
-                        <div class="test-grid">
-                            <div class="col-md-9 test-grid1">
-                                <i class="fa fa-quote-left" aria-hidden="true"></i>
-                                <p class="para-w3-agile">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                    elit,consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                                    ut labore et dolore magna aliqua sed do eiusmod tempor incididunt ut labore et
-                                    dolore magna aliqua. Ut enim ad
-                                    minim veniam, quis. Lorem ipsum dolor .</p>
-                                <h4>Steve Warner</h4>
-                            </div>
-                            <div class="col-md-3 test-grid2">
-                                <img src="images/t1.jpg" alt="" class="img-r">
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="agile">
-                        <div class="test-grid">
-                            <div class="col-md-9 test-grid1">
-                                <i class="fa fa-quote-left" aria-hidden="true"></i>
-                                <p class="para-w3-agile">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                    elit,consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                                    ut labore et dolore magna aliqua sed do eiusmod tempor incididunt ut labore et
-                                    dolore magna aliqua. Ut enim ad
-                                    minim veniam, quis. Lorem ipsum dolor.</p>
-                                <h4>Andery</h4>
-                            </div>
-                            <div class="col-md-3 test-grid2">
-                                <img src="images/t2.jpg" alt="" class="img-r">
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="agile">
-                        <div class="test-grid">
-                            <div class="col-md-9 test-grid1">
-                                <i class="fa fa-quote-left" aria-hidden="true"></i>
-                                <p class="para-w3-agile">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                    elit,consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                                    ut labore et dolore magna aliqua sed do eiusmod tempor incididunt ut labore et
-                                    dolore magna aliqua. Ut enim ad
-                                    minim veniam, quis. Lorem ipsum dolor .</p>
-                                <h4>Williams</h4>
-                            </div>
-                            <div class="col-md-3 test-grid2">
-                                <img src="images/t3.jpg" alt="" class="img-r">
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- //agile_testimonials -->
 
-<!-- contact -->
-<div class="contact" id="contact">
-    <div class="col-md-6 contact_img_agile">
-    </div>
-    <div class="col-md-6 contact-form agile_inner_grids">
-        <div class="wthree_head_section two">
-            <h3 class="agile_tittle two"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> <span>Our</span>Contact
-            </h3>
+            <div class="col-md-6 about_agileinfo">
+                <h4>Start Something New</h4>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                    industry's standard
+                    dummy text ever since the 1500s but also the leap into electronic typesetting dolor amet.</p>
+
+                <p>Integer laoreet ultricies nunc, vitae eleifend elit rutrum sit amet. In elementum, magna id
+                    pellentesque auctor, risus
+                    dolor congue urna, nec dapibus eros magna a odio. Duis laoreet risus eget malesuada consequat. Nunc
+                    et tortor dignissim,
+                    laoreet est eget</p>
+                <div class="agileits-button two">
+                    <a class="btn btn-primary btn-lg scroll" data-toggle="modal" data-target="#myModal4" href="#"
+                       role="button">Read More »</a>
+                </div>
+            </div>
+            <div class="col-md-6 about_agileinfo_grid_imgs">
+                <img src="images/banner1.jpg" alt=""/>
+                <img src="images/banner6.jpg" alt=""/>
+            </div>
+            <div class="clearfix"></div>
         </div>
-        <form action="#" method="post">
-            <div class="fields-grid">
-                <div class="styled-input agile-styled-input-top">
-                    <input type="text" name="Full Name" required="">
-                    <label>Full Name</label>
-                    <span></span>
-                </div>
-                <div class="styled-input agile-styled-input-top">
-                    <input type="text" name="Phone" required="">
-                    <label>Phone</label>
-                    <span></span>
-                </div>
-                <div class="styled-input">
-                    <input type="email" name="Email" required="">
-                    <label>Email</label>
-                    <span></span>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="styled-input textarea-grid">
-                <textarea name="Message" required></textarea>
-                <label>Message</label>
-                <span></span>
-            </div>
-            <input type="submit" value="SEND">
-        </form>
     </div>
-    <div class="clearfix"></div>
 </div>
-<!--// contact -->
+<!-- Modal4 -->
+<div class="modal fade" id="myModal4" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="modal-info">
+                    <h4>青空乐</h4>
+                    <img src="images/banner2.jpg" alt=" " class="img-responsive"/>
+                    <h5>Sub heading here</h5>
+                    <p class="para-agileits-w3layouts">Duis sit amet nisi quis leo fermentum vestibulum vitae eget
+                        augue. Nulla quam nunc, vulputate id urna at, tempor tincidunt
+                        metus. Sed feugiat quam nec mauris mattis malesuada.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- //Modal4 -->
+
+<!--//about -->
+
+
 <div class="w3l_footer">
     <div class="container">
         <div class="col-md-4">
@@ -553,13 +294,13 @@
                 <li><a class="scroll" href="#home">Home</a></li>
                 <li><a class="scroll" href="#welcome">About</a></li>
                 <li><a class="scroll" href="#portfolio">Photo Gallery</a></li>
-                <li><a class="scroll" href="#contact">Contact</a></li>
+                <!--<li><a class="scroll" href="#contact">Contact</a></li>-->
             </ul>
             <div class="w3l-social team_agile _icons">
                 <ul>
-                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                    <li><a href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=arvensong@163.com" target="_blank"><i class="fa fa-envelope"></i></a></li>
+                    <li><a href="http://wpa.qq.com/msgrd?v=3&uin=928849404&site=qq&menu=yes" target="_blank"><i class="fa fa-qq"></i></a></li>
+                    <li><a href="mailto:arvensong@163.com" target="_blank"><i class="fa fa-qq"></i></a></li>
                 </ul>
             </div>
             <div class="clearfix"></div>
