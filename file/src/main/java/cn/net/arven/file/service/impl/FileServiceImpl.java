@@ -16,6 +16,7 @@ import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -55,10 +56,14 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
         String showName = file.getOriginalFilename();
         String realName = FileUtil.newDateName(showName);
         java.io.File dest = new java.io.File(Constant.BASE_PATH + realName);
+        java.io.File temp = new java.io.File(Constant.BASE_PATH + "temp_"+realName);
         if (!dest.getParentFile().exists()) { //判断文件父目录是否存在
             dest.getParentFile().mkdirs();
         }
-        FileUtil.writeBytes(file.getBytes(), dest);
+        FileUtil.writeBytes(file.getBytes(), temp);
+        FileOutputStream fo = new FileOutputStream(dest);
+        Thumbnails.of(temp).size(4500, 3000).toOutputStream(fo);
+        temp.delete();
         File fileEntity = new File();
         fileEntity.setPath(Constant.BASE_PATH);
         fileEntity.setRealName(realName);

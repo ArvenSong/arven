@@ -1,9 +1,9 @@
-package cn.net.arven.file.controller;
+package cn.net.arven.home.controller;
 
 import cn.net.arven.common.constant.Constant;
 import cn.net.arven.common.entity.File;
 import cn.net.arven.common.util.FileUtil;
-import cn.net.arven.file.service.IFileService;
+import cn.net.arven.home.service.IFileService;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,10 @@ public class FileController {
 
     @Autowired
     IFileService fileService;
-
+    @RequestMapping("/file")
+    public Object home(){
+        return "file";
+    }
 
     /**
      * 文件上传

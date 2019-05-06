@@ -42,7 +42,7 @@
     float: left;" href="index.html">青空乐</a></h1>
         </div>
         <div class="gallery">
-            <div th:each="banner : ${banner}"
+            <div th:each="banner : ${banner_test}"
                  th:class="${bannerStat.index==1?'gallery\_\_img-block  current':'gallery\_\_img-block  '}">
                 <span class="" th:text="${banner.showName}">showName</span>
                 <a th:href="${truth+banner.id}" target="_blank"><img th:src="${bannerUrl+banner.id}" th:thumb-url="${breviary+banner.id}" alt="" /></a>
@@ -79,14 +79,14 @@
 <div class="agile_testimonials" id="testimonials">
     <div class="container">
         <div class="wthree_head_section test">
-            <h3 class="agile_tittle"><i class="fa fa-bullhorn" aria-hidden="true"></i> <span>Our</span> Testimonials
+            <h3 class="agile_tittle"><i class="fa fa-bullhorn" aria-hidden="true"></i> <span>Our</span> Photographer
             </h3>
         </div>
 
         <div class="agile_wthree_inner_grids">
             <div class="test-gri1">
                 <div id="owl-demo2" class="owl-carousel">
-                    <div class="agile">
+                    <div class="agile" th:each="photographer : ${photographer}" >
                         <div class="test-grid">
                             <div class="col-md-9 test-grid1">
                                 <i class="fa fa-quote-left" aria-hidden="true"></i>
@@ -95,15 +95,15 @@
                                     ut labore et dolore magna aliqua sed do eiusmod tempor incididunt ut labore et
                                     dolore magna aliqua. Ut enim ad
                                     minim veniam, quis. Lorem ipsum dolor .</p>
-                                <h4>Steve Warner</h4>
+                                <h4>Arven Song</h4>
                             </div>
                             <div class="col-md-3 test-grid2">
-                                <img src="images/t1.jpg" alt="" class="img-r">
+                                <img th:src="${bannerUrl+photographer.id}" alt="" class="img-r">
                             </div>
                         </div>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="agile">
+                    <!--<div class="agile">
                         <div class="test-grid">
                             <div class="col-md-9 test-grid1">
                                 <i class="fa fa-quote-left" aria-hidden="true"></i>
@@ -136,7 +136,7 @@
                             </div>
                         </div>
                         <div class="clearfix"></div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
@@ -292,15 +292,13 @@
         <div class="col-md-8 botttom-nav-agileits">
             <ul class="nav-w3ls">
                 <li><a class="scroll" href="#home">Home</a></li>
-                <li><a class="scroll" href="#welcome">About</a></li>
                 <li><a class="scroll" href="#portfolio">Photo Gallery</a></li>
-                <!--<li><a class="scroll" href="#contact">Contact</a></li>-->
+                <li><a class="scroll" href="#welcome">About</a></li>
             </ul>
             <div class="w3l-social team_agile _icons">
                 <ul>
                     <li><a href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=arvensong@163.com" target="_blank"><i class="fa fa-envelope"></i></a></li>
                     <li><a href="http://wpa.qq.com/msgrd?v=3&uin=928849404&site=qq&menu=yes" target="_blank"><i class="fa fa-qq"></i></a></li>
-                    <li><a href="mailto:arvensong@163.com" target="_blank"><i class="fa fa-qq"></i></a></li>
                 </ul>
             </div>
             <div class="clearfix"></div>

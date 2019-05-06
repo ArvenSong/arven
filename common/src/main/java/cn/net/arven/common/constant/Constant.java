@@ -21,14 +21,15 @@ public class Constant {
     public static final String FILE_TYPE_APPLICATION = "application";
 
     //文件标签
-    public static final String FILE_TAG_BANNER = "banner";
+    public static final String FILE_TAG_BANNER = "banner_test";
+    public static final String FILE_TAG_PHOTOGRAPHER = "photographer";
 
 
-    public static final int BANNER_SIZE = 12;
+    public static final int BANNER_SIZE = 5;
 
 
     //图片文件请求地址
-    public static final String FILE_SERVICE_URL = "https://arven.net.cn:8764/";
+    public static final String FILE_SERVICE_URL = "/";
 //    public static final String FILE_SERVICE_URL = "https://localhost:8764/";
     public static final String FILE_SERVICE_URL_BREVIARY = FILE_SERVICE_URL + "view/breviary/";
     public static final String FILE_SERVICE_URL_TRUTH = FILE_SERVICE_URL + "view/truth/";
