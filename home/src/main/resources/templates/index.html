@@ -45,7 +45,7 @@
             <div th:each="banner : ${banner}"
                  th:class="${bannerStat.index==1?'gallery\_\_img-block  current':'gallery\_\_img-block  '}">
                 <span class="" th:text="${banner.showName}">showName</span>
-                <a th:href="${truth+banner.realName}" target="_blank"><img th:src="${large+banner.realName}" th:thumb-url="${small+banner.realName}" alt="" /></a>
+                <a th:href="${truth+banner.realName}" target="_blank"><img th:src="${large+banner.realName}" th:thumb-url="${small+banner.realName}" title="点击查看原图" /></a>
             </div>
 
             <div class="gallery__controls">
@@ -97,7 +97,7 @@
                                 <h4>Arven Song</h4>
                             </div>
                             <div class="col-md-3 test-grid2">
-                                <img th:src="${truth+photographer.realName}" alt="" class="img-r">
+                                <img th:src="${large+photographer.realName}" alt="" class="img-r">
                             </div>
                         </div>
                         <div class="clearfix"></div>

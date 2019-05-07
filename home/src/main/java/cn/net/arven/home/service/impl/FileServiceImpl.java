@@ -38,7 +38,7 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
 
     @Override
-    public List<File> getFileByTag(String tag) {
+    public List<File> getFileByTag(String tag, Integer minSize) {
         List<File> fileList = baseMapper.getFileByTag(tag);
         if (CollUtil.isEmpty(fileList)) {
             return Collections.emptyList();
@@ -46,15 +46,16 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
         for (File file : fileList) {
             file.setShowName(file.getShowName().substring(0, file.getShowName().lastIndexOf(".")));
         }
-        if (fileList.size() < Constant.BANNER_SIZE) {
-            int num = Constant.BANNER_SIZE - fileList.size();
-            for (int i = 0; i < num; i++) {
-                fileList.add(fileList.get(i));
+        if (minSize != null) {
+            if (fileList.size() < minSize) {
+                int num = minSize - fileList.size();
+                for (int i = 0; i < num; i++) {
+                    fileList.add(fileList.get(i));
+                }
             }
         }
         return fileList;
     }
-
 
 
     @Override
