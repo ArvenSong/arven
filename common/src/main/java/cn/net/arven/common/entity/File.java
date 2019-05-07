@@ -59,6 +59,11 @@ public class File extends Model<File> {
      */
      
     private String tag;
+    /**
+     * 图片是否横向
+     */
+
+    private Integer crosswise;
 
         /**
      * 创建时间
@@ -135,6 +140,14 @@ public class File extends Model<File> {
         this.tag = tag;
         return this;
     }
+ public Integer getCrosswise() {
+        return crosswise;
+    }
+
+    public File setCrosswise(Integer crosswise) {
+        this.crosswise = crosswise;
+        return this;
+    }
 
     public Date getCreateTime() {
         return createTime;
@@ -168,6 +181,8 @@ public class File extends Model<File> {
 
     public static final String TAG = "tag";
 
+    public static final String CROSSWISE = "crosswise";
+
     public static final String CREATE_TIME = "create_time";
 
     public static final String UPDATE_TIME = "update_time";
@@ -187,6 +202,7 @@ public class File extends Model<File> {
         ", creator=" + creator +
         ", type=" + type +
         ", tag=" + tag +
+        ", crosswise=" + crosswise +
         ", createTime=" + createTime +
         ", updateTime=" + updateTime +
         "}";

@@ -25,5 +25,12 @@ public interface IFileService extends IService<File> {
      */
     String saveMultipartFile(MultipartFile file, String tag) throws IOException;
 
-    List<File> getFileByTag(String tag, Integer minSize);
+    /**
+     *
+     * @param tag
+     * @param minSize
+     * @param crosswise 是否横向 null代表全部
+     * @return
+     */
+    List<File> getFileByTag(String tag, Integer minSize,Integer crosswise);
 }

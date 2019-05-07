@@ -46,7 +46,9 @@ public class Constant {
     public static final String STATIC_LARGE_PATH = "/opt/data/large/";
     public static final String STATIC_TRUTH_PATH = "/opt/data/truth/";
 
-
+    //是和否
+    public static final Integer TRUE = 1;
+    public static final Integer FALSE = 0;
 
 
 }

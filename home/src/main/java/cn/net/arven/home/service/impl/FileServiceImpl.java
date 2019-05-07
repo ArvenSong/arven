@@ -16,6 +16,7 @@ import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -38,8 +39,8 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
 
     @Override
-    public List<File> getFileByTag(String tag, Integer minSize) {
-        List<File> fileList = baseMapper.getFileByTag(tag,minSize);
+    public List<File> getFileByTag(String tag, Integer minSize,Integer crosswise) {
+        List<File> fileList = baseMapper.getFileByTag(tag, minSize, crosswise);
         if (CollUtil.isEmpty(fileList)) {
             return Collections.emptyList();
         }
@@ -91,14 +92,23 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
         }
 
         FileUtil.writeBytes(file.getBytes(), truth);
-        Thumbnails.of(truth).size(6000, 4000).toOutputStream(new FileOutputStream(large));
-        Thumbnails.of(truth).size(120, 90).toOutputStream(new FileOutputStream(small));
-
+        BufferedImage bufferedImage = Thumbnails.of(truth).scale(1).asBufferedImage();
+        int height = bufferedImage.getHeight();
+        int width = bufferedImage.getWidth();
+        boolean crosswise = width > height;
+        if (crosswise) {
+            Thumbnails.of(truth).size(6000, 4000).toOutputStream(new FileOutputStream(large));
+            Thumbnails.of(truth).size(120, 90).toOutputStream(new FileOutputStream(small));
+        } else {
+            Thumbnails.of(truth).size(4000, 6000).toOutputStream(new FileOutputStream(large));
+            Thumbnails.of(truth).size(90, 120).toOutputStream(new FileOutputStream(small));
+        }
         File fileEntity = new File();
         fileEntity.setPath(Constant.STATIC_TRUTH_PATH);
         fileEntity.setRealName(realName);
         fileEntity.setShowName(showName);
         fileEntity.setTag(tag);
+        fileEntity.setCrosswise(crosswise ? Constant.TRUE : Constant.FALSE);
         fileEntity.setType(cn.net.arven.common.util.FileUtil.getFileType(file));
         if (Constant.FILE_TYPE_IMAGE.equals(fileEntity.getType())) {
             try {

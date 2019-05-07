@@ -16,6 +16,6 @@ import java.util.List;
  */
 public interface FileDao extends BaseMapper<File> {
 
-    List<File> getFileByTag(@Param("tag")String tag, @Param("limit")Integer limit);
+    List<File> getFileByTag(@Param("tag")String tag, @Param("limit")Integer limit,@Param("crosswise")Integer crosswise);
 
 }

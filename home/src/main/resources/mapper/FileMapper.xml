@@ -4,11 +4,16 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, path, show_name, real_name, creator, type, tag, create_time, update_time
+        id, path, show_name, real_name, creator, type, tag, crosswise, create_time, update_time
     </sql>
     <select id="getFileByTag" resultType="cn.net.arven.common.entity.File">
-        select <include refid="Base_Column_List"></include> from file where tag like CONCAT('%',#{tag},'%') ORDER BY
-        RAND()
+        select <include refid="Base_Column_List"></include> from file where tag like CONCAT('%',#{tag},'%')
+        <choose>
+            <when test="crosswise!=null">
+                AND  crosswise = #{crosswise}
+            </when>
+        </choose>
+        ORDER BY RAND()
         <choose>
             <when test="limit">
                 LIMIT #{limit}
