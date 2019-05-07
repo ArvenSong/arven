@@ -23,9 +23,9 @@ public class HomeController {
     public Object home() {
         ModelAndView mv = new ModelAndView("index");
         Map<String, Object> model = mv.getModel();
-        model.put("breviary", Constant.FILE_SERVICE_URL_BREVIARY);
-        model.put("bannerUrl", Constant.FILE_SERVICE_URL_BANNER);
-        model.put("truth", Constant.FILE_SERVICE_URL_TRUTH);
+        model.put("small", Constant.STATIC_SMALL_URL);
+        model.put("large", Constant.STATIC_LARGE_URL);
+        model.put("truth", Constant.STATIC_TRUTH_URL);
         model.put(Constant.FILE_TAG_BANNER, fileService.getFileByTag(Constant.FILE_TAG_BANNER));
         model.put(Constant.FILE_TAG_PHOTOGRAPHER, fileService.getFileByTag(Constant.FILE_TAG_PHOTOGRAPHER));
         return mv;

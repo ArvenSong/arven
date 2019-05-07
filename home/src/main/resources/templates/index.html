@@ -42,10 +42,10 @@
     float: left;" href="index.html">青空乐</a></h1>
         </div>
         <div class="gallery">
-            <div th:each="banner : ${banner_test}"
+            <div th:each="banner : ${banner}"
                  th:class="${bannerStat.index==1?'gallery\_\_img-block  current':'gallery\_\_img-block  '}">
                 <span class="" th:text="${banner.showName}">showName</span>
-                <a th:href="${truth+banner.id}" target="_blank"><img th:src="${bannerUrl+banner.id}" th:thumb-url="${breviary+banner.id}" alt="" /></a>
+                <a th:href="${truth+banner.realName}" target="_blank"><img th:src="${large+banner.realName}" th:thumb-url="${small+banner.realName}" alt="" /></a>
             </div>
 
             <div class="gallery__controls">
@@ -60,7 +60,6 @@
             <nav>
                 <ul>
                     <li><a href="#home" class="active scroll">Home</a></li>
-
                     <li><a href="#portfolio" class="scroll">Gallery</a></li>
                     <li><a href="#welcome" class="scroll">About</a></li>
                 </ul>
@@ -98,7 +97,7 @@
                                 <h4>Arven Song</h4>
                             </div>
                             <div class="col-md-3 test-grid2">
-                                <img th:src="${bannerUrl+photographer.id}" alt="" class="img-r">
+                                <img th:src="${truth+photographer.realName}" alt="" class="img-r">
                             </div>
                         </div>
                         <div class="clearfix"></div>

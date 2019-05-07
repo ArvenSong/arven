@@ -76,17 +76,25 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
 
         String showName = file.getOriginalFilename();
         String realName = FileUtil.newDateName(showName);
-        java.io.File dest = new java.io.File(Constant.BASE_PATH + realName);
-        java.io.File temp = new java.io.File(Constant.BASE_PATH + "temp_"+realName);
-        if (!dest.getParentFile().exists()) { //判断文件父目录是否存在
-            dest.getParentFile().mkdirs();
+        java.io.File small = new java.io.File(Constant.STATIC_SMALL_PATH + realName);
+        java.io.File large = new java.io.File(Constant.STATIC_LARGE_PATH + realName);
+        java.io.File truth = new java.io.File(Constant.STATIC_TRUTH_PATH + realName);
+        if (!small.getParentFile().exists()) { //判断文件父目录是否存在
+            small.getParentFile().mkdirs();
         }
-        FileUtil.writeBytes(file.getBytes(), temp);
-        FileOutputStream fo = new FileOutputStream(dest);
-        Thumbnails.of(temp).size(4500, 3000).toOutputStream(fo);
-        temp.delete();
+        if (!large.getParentFile().exists()) { //判断文件父目录是否存在
+            large.getParentFile().mkdirs();
+        }
+        if (!truth.getParentFile().exists()) { //判断文件父目录是否存在
+            truth.getParentFile().mkdirs();
+        }
+
+        FileUtil.writeBytes(file.getBytes(), truth);
+        Thumbnails.of(truth).size(6000, 4000).toOutputStream(new FileOutputStream(large));
+        Thumbnails.of(truth).size(120, 90).toOutputStream(new FileOutputStream(small));
+
         File fileEntity = new File();
-        fileEntity.setPath(Constant.BASE_PATH);
+        fileEntity.setPath(Constant.STATIC_TRUTH_PATH);
         fileEntity.setRealName(realName);
         fileEntity.setShowName(showName);
         fileEntity.setTag(tag);

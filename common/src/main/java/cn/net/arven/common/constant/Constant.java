@@ -21,11 +21,11 @@ public class Constant {
     public static final String FILE_TYPE_APPLICATION = "application";
 
     //文件标签
-    public static final String FILE_TAG_BANNER = "banner_test";
+    public static final String FILE_TAG_BANNER = "banner";
     public static final String FILE_TAG_PHOTOGRAPHER = "photographer";
 
 
-    public static final int BANNER_SIZE = 5;
+    public static final int BANNER_SIZE = 12;
 
 
     //图片文件请求地址
@@ -35,6 +35,17 @@ public class Constant {
     public static final String FILE_SERVICE_URL_TRUTH = FILE_SERVICE_URL + "view/truth/";
     public static final String FILE_SERVICE_URL_BANNER = FILE_SERVICE_URL + "banner/";
     public static final String FILE_SERVICE_URL_DOWNLOAD = FILE_SERVICE_URL + "download/";
+
+    public static final String STATIC_SMALL_URL = "/small/";
+    public static final String STATIC_LARGE_URL = "/large/";
+    public static final String STATIC_TRUTH_URL = "/truth/";
+
+    //图片存放路径
+    public static final String STATIC_SMALL_PATH = "/opt/data/small/";
+    public static final String STATIC_LARGE_PATH = "/opt/data/large/";
+    public static final String STATIC_TRUTH_PATH = "/opt/data/truth/";
+
+
 
 
 }
