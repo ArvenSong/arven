@@ -2,6 +2,7 @@ package cn.net.arven.home.dao;
 
 import cn.net.arven.common.entity.File;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,6 +16,6 @@ import java.util.List;
  */
 public interface FileDao extends BaseMapper<File> {
 
-    List<File> getFileByTag(String tag);
+    List<File> getFileByTag(@Param("tag")String tag, @Param("limit")Integer limit);
 
 }

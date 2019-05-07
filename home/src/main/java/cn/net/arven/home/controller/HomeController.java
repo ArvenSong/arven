@@ -28,6 +28,7 @@ public class HomeController {
         model.put("truth", Constant.STATIC_TRUTH_URL);
         model.put(Constant.FILE_TAG_BANNER, fileService.getFileByTag(Constant.FILE_TAG_BANNER, Constant.BANNER_SIZE));
         model.put(Constant.FILE_TAG_PHOTOGRAPHER, fileService.getFileByTag(Constant.FILE_TAG_PHOTOGRAPHER, null));
+        model.put(Constant.FILE_TAG_GALLERY, fileService.getFileByTag(Constant.FILE_TAG_GALLERY, null));
         return mv;
     }
 

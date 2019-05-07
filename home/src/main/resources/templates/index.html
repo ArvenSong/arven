@@ -31,6 +31,24 @@
     <!-- //font-awesome-icons -->
     <link href="css/montserrat.css" rel="stylesheet">
     <link href="css/family.css" rel="stylesheet">
+    <style type="text/css">
+        .imgsAll img {
+            border: 1px solid white;
+            float: right;
+        }
+
+        .imgsRight {
+            float: right;
+        }
+
+        .imgsLeft {
+            float: left;
+        }
+
+        .gallery__thumbnail {
+            height: inherit !important
+        }
+    </style>
 </head>
 
 <body>
@@ -45,7 +63,9 @@
             <div th:each="banner : ${banner}"
                  th:class="${bannerStat.index==1?'gallery\_\_img-block  current':'gallery\_\_img-block  '}">
                 <span class="" th:text="${banner.showName}">showName</span>
-                <a th:href="${truth+banner.realName}" target="_blank"><img th:src="${large+banner.realName}" th:thumb-url="${small+banner.realName}" title="点击查看原图" /></a>
+                <a th:href="${truth+banner.realName}" target="_blank"><img th:src="${large+banner.realName}"
+                                                                           th:thumb-url="${small+banner.realName}"
+                                                                           title="点击查看原图"/></a>
             </div>
 
             <div class="gallery__controls">
@@ -85,7 +105,7 @@
         <div class="agile_wthree_inner_grids">
             <div class="test-gri1">
                 <div id="owl-demo2" class="owl-carousel">
-                    <div class="agile" th:each="photographer : ${photographer}" >
+                    <div class="agile" th:each="photographer : ${photographer}">
                         <div class="test-grid">
                             <div class="col-md-9 test-grid1">
                                 <i class="fa fa-quote-left" aria-hidden="true"></i>
@@ -102,40 +122,6 @@
                         </div>
                         <div class="clearfix"></div>
                     </div>
-                    <!--<div class="agile">
-                        <div class="test-grid">
-                            <div class="col-md-9 test-grid1">
-                                <i class="fa fa-quote-left" aria-hidden="true"></i>
-                                <p class="para-w3-agile">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                    elit,consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                                    ut labore et dolore magna aliqua sed do eiusmod tempor incididunt ut labore et
-                                    dolore magna aliqua. Ut enim ad
-                                    minim veniam, quis. Lorem ipsum dolor.</p>
-                                <h4>Andery</h4>
-                            </div>
-                            <div class="col-md-3 test-grid2">
-                                <img src="images/t2.jpg" alt="" class="img-r">
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="agile">
-                        <div class="test-grid">
-                            <div class="col-md-9 test-grid1">
-                                <i class="fa fa-quote-left" aria-hidden="true"></i>
-                                <p class="para-w3-agile">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                    elit,consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                                    ut labore et dolore magna aliqua sed do eiusmod tempor incididunt ut labore et
-                                    dolore magna aliqua. Ut enim ad
-                                    minim veniam, quis. Lorem ipsum dolor .</p>
-                                <h4>Williams</h4>
-                            </div>
-                            <div class="col-md-3 test-grid2">
-                                <img src="images/t3.jpg" alt="" class="img-r">
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>-->
                 </div>
             </div>
         </div>
@@ -153,17 +139,21 @@
     </div>
     <div class="agile_wthree_inner_grids">
         <div class="agile_port_w3ls_info">
-            <div class="portfolio-grids_main">
-                <div class="col-md-6 portfolio-grids" data-aos="zoom-in">
-                    <a href="images/g1.jpg" class="b-link-stripe b-animate-go lightninBox" data-lb-group="1">
-                        <img src="images/g1.jpg" class="img-responsive" alt="w3ls"/>
-                        <div class="b-wrapper two">
+            <div class="portfolio-grids_main imgsAll">
+                <div th:class="${(galleryStat.index %14 == 0 || galleryStat.index %14 == 5 ?'col-md-6 portfolio-grids ':'col-md-3 portfolio-grids ')+(galleryStat.index %14 <5?' imgsLeft':' imgsRight')}"
+                     data-aos="zoom-in" th:each="gallery : ${gallery}">
+                    <!--<div th:class="${galleryStat.index %5 ==0?'col-md-6 portfolio-grids':'col-md-3 portfolio-grids'}" data-aos="zoom-in" th:each="gallery : ${gallery}" >-->
+                    <a th:href="${large+gallery.realName}" class="b-link-stripe b-animate-go lightninBox"
+                       data-lb-group="1">
+                        <img th:src="${large+gallery.realName}" class="img-responsive" alt="w3ls"/>
+                        <div class="b-wrapper">
                             <i class="fa fa-magic" aria-hidden="true"></i>
 
                         </div>
                     </a>
                 </div>
-                <div class="col-md-6 portfolio-grid_left">
+
+                <!--<div class="col-md-6 portfolio-grid_left">
                     <div class="col-md-6 portfolio-grids" data-aos="zoom-in">
                         <a href="images/g5.jpg" class="b-link-stripe b-animate-go lightninBox" data-lb-group="1">
                             <img src="images/g5.jpg" class="img-responsive" alt="w3ls"/>
@@ -182,11 +172,11 @@
                             </div>
                         </a>
                     </div>
-                </div>
+                </div>-->
 
                 <div class="clearfix"></div>
             </div>
-            <div class="portfolio-grids_main">
+            <!--<div class="portfolio-grids_main">
 
                 <div class="col-md-6 portfolio-grid_left">
                     <div class="col-md-6 portfolio-grids" data-aos="zoom-in">
@@ -219,7 +209,7 @@
                 </div>
 
                 <div class="clearfix"></div>
-            </div>
+            </div>-->
 
         </div>
     </div>
@@ -296,8 +286,10 @@
             </ul>
             <div class="w3l-social team_agile _icons">
                 <ul>
-                    <li><a href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=arvensong@163.com" target="_blank"><i class="fa fa-envelope"></i></a></li>
-                    <li><a href="http://wpa.qq.com/msgrd?v=3&uin=928849404&site=qq&menu=yes" target="_blank"><i class="fa fa-qq"></i></a></li>
+                    <li><a href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=arvensong@163.com"
+                           target="_blank"><i class="fa fa-envelope"></i></a></li>
+                    <li><a href="http://wpa.qq.com/msgrd?v=3&uin=928849404&site=qq&menu=yes" target="_blank"><i
+                            class="fa fa-qq"></i></a></li>
                 </ul>
             </div>
             <div class="clearfix"></div>

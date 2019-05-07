@@ -23,6 +23,7 @@ public class Constant {
     //文件标签
     public static final String FILE_TAG_BANNER = "banner";
     public static final String FILE_TAG_PHOTOGRAPHER = "photographer";
+    public static final String FILE_TAG_GALLERY = "gallery";
 
 
     public static final int BANNER_SIZE = 12;

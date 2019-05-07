@@ -7,7 +7,13 @@
         id, path, show_name, real_name, creator, type, tag, create_time, update_time
     </sql>
     <select id="getFileByTag" resultType="cn.net.arven.common.entity.File">
-        select <include refid="Base_Column_List"></include> from file where tag like CONCAT('%',#{tag},'%') ORDER BY RAND() LIMIT 12;
+        select <include refid="Base_Column_List"></include> from file where tag like CONCAT('%',#{tag},'%') ORDER BY
+        RAND()
+        <choose>
+            <when test="limit">
+                LIMIT #{limit}
+            </when>
+        </choose>
     </select>
 
 
