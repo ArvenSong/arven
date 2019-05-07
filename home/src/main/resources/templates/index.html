@@ -56,27 +56,26 @@
 <div class="banner_top" id="home">
     <div class="wrapper">
         <div class="agile_banner_text_info">
-            <h1><i class="fa fa-camera-retro" aria-hidden="true"></i> <span>Creative</span><a style="    margin-top: 31px;
-    float: left;" href="index.html">青空乐</a></h1>
+            <h1>
+                <i class="fa fa-camera-retro" aria-hidden="true"></i>
+                <span>Creative</span>
+                <a style="margin-top: 31px;float: left;" href="index.html">青空乐</a>
+            </h1>
         </div>
         <div class="gallery">
-            <div th:each="banner : ${banner}"
-                 th:class="${bannerStat.index==1?'gallery\_\_img-block  current':'gallery\_\_img-block  '}">
+            <div th:each="banner : ${banner}" th:class="${bannerStat.index==1?'gallery\_\_img-block  current':'gallery\_\_img-block  '}">
                 <span class="" th:text="${banner.showName}">showName</span>
-                <a th:href="${truth+banner.realName}" target="_blank"><img th:src="${large+banner.realName}"
-                                                                           th:thumb-url="${small+banner.realName}"
-                                                                           title="点击查看原图"/></a>
+                <a th:href="${truth+banner.realName}" target="_blank">
+                    <img th:src="${large+banner.realName}" th:thumb-url="${small+banner.realName}" title="点击查看原图"/>
+                </a>
             </div>
-
             <div class="gallery__controls">
-
             </div>
         </div>
     </div>
     <div class="w3_agile_header">
         <div class="overlay overlay-contentpush">
             <button type="button" class="overlay-close"><i class="fa fa-times" aria-hidden="true"></i></button>
-
             <nav>
                 <ul>
                     <li><a href="#home" class="active scroll">Home</a></li>
@@ -89,7 +88,6 @@
             <button id="trigger-overlay" type="button"><i class="fa fa-bars" aria-hidden="true"></i></button>
 
         </div>
-
         <div class="clearfix"></div>
     </div>
 </div>
@@ -98,10 +96,8 @@
 <div class="agile_testimonials" id="testimonials">
     <div class="container">
         <div class="wthree_head_section test">
-            <h3 class="agile_tittle"><i class="fa fa-bullhorn" aria-hidden="true"></i> <span>Our</span> Photographer
-            </h3>
+            <h3 class="agile_tittle"><i class="fa fa-bullhorn" aria-hidden="true"></i> <span>Our</span> Photographer</h3>
         </div>
-
         <div class="agile_wthree_inner_grids">
             <div class="test-gri1">
                 <div id="owl-demo2" class="owl-carousel">
@@ -133,8 +129,7 @@
 <div class="portfolio-agileinfo" id="portfolio">
     <div class="container">
         <div class="wthree_head_section">
-            <h3 class="agile_tittle"><i class="fa fa-bullhorn" aria-hidden="true"></i> <span>Our</span>Photo Gallery
-            </h3>
+            <h3 class="agile_tittle"><i class="fa fa-bullhorn" aria-hidden="true"></i> <span>Our</span>Photo Gallery</h3>
         </div>
     </div>
     <div class="agile_wthree_inner_grids">
@@ -142,75 +137,15 @@
             <div class="portfolio-grids_main imgsAll">
                 <div th:class="${(galleryStat.index %14 == 0 || galleryStat.index %14 == 5 ?'col-md-6 portfolio-grids ':'col-md-3 portfolio-grids ')+(galleryStat.index %14 <5?' imgsLeft':' imgsRight')}"
                      data-aos="zoom-in" th:each="gallery : ${gallery}">
-                    <!--<div th:class="${galleryStat.index %5 ==0?'col-md-6 portfolio-grids':'col-md-3 portfolio-grids'}" data-aos="zoom-in" th:each="gallery : ${gallery}" >-->
-                    <a th:href="${large+gallery.realName}" class="b-link-stripe b-animate-go lightninBox"
-                       data-lb-group="1">
+                    <a th:href="${large+gallery.realName}" class="b-link-stripe b-animate-go lightninBox" data-lb-group="1">
                         <img th:src="${large+gallery.realName}" class="img-responsive" alt="w3ls"/>
                         <div class="b-wrapper">
                             <i class="fa fa-magic" aria-hidden="true"></i>
-
                         </div>
                     </a>
                 </div>
-
-                <!--<div class="col-md-6 portfolio-grid_left">
-                    <div class="col-md-6 portfolio-grids" data-aos="zoom-in">
-                        <a href="images/g5.jpg" class="b-link-stripe b-animate-go lightninBox" data-lb-group="1">
-                            <img src="images/g5.jpg" class="img-responsive" alt="w3ls"/>
-                            <div class="b-wrapper">
-                                <i class="fa fa-magic" aria-hidden="true"></i>
-
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-6 portfolio-grids" data-aos="zoom-in">
-                        <a href="images/g4.jpg" class="b-link-stripe b-animate-go lightninBox" data-lb-group="1">
-                            <img src="images/g4.jpg" class="img-responsive" alt="w3ls"/>
-                            <div class="b-wrapper">
-                                <i class="fa fa-magic" aria-hidden="true"></i>
-
-                            </div>
-                        </a>
-                    </div>
-                </div>-->
-
                 <div class="clearfix"></div>
             </div>
-            <!--<div class="portfolio-grids_main">
-
-                <div class="col-md-6 portfolio-grid_left">
-                    <div class="col-md-6 portfolio-grids" data-aos="zoom-in">
-                        <a href="images/g6.jpg" class="b-link-stripe b-animate-go lightninBox" data-lb-group="1">
-                            <img src="images/g6.jpg" class="img-responsive" alt="w3ls"/>
-                            <div class="b-wrapper">
-                                <i class="fa fa-magic" aria-hidden="true"></i>
-
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-6 portfolio-grids" data-aos="zoom-in">
-                        <a href="images/g3.jpg" class="b-link-stripe b-animate-go lightninBox" data-lb-group="1">
-                            <img src="images/g3.jpg" class="img-responsive" alt="w3ls"/>
-                            <div class="b-wrapper">
-                                <i class="fa fa-magic" aria-hidden="true"></i>
-
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-6 portfolio-grids" data-aos="zoom-in">
-                    <a href="images/g2.jpg" class="b-link-stripe b-animate-go lightninBox" data-lb-group="1">
-                        <img src="images/g2.jpg" class="img-responsive" alt="w3ls"/>
-                        <div class="b-wrapper two">
-                            <i class="fa fa-magic" aria-hidden="true"></i>
-
-                        </div>
-                    </a>
-                </div>
-
-                <div class="clearfix"></div>
-            </div>-->
-
         </div>
     </div>
 </div>
@@ -220,11 +155,9 @@
     <div class="container">
         <div class="wthree_head_section">
             <h2>We Are Beauty Hunters !</h2>
-            <h3 class="agile_tittle"><i class="fa fa-bullhorn" aria-hidden="true"></i> <span>About</span>Photography
-            </h3>
+            <h3 class="agile_tittle"><i class="fa fa-bullhorn" aria-hidden="true"></i> <span>About</span>Photography</h3>
         </div>
         <div class="agile_wthree_inner_grids">
-
             <div class="col-md-6 about_agileinfo">
                 <h4>Start Something New</h4>
                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the

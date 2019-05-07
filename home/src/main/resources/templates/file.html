@@ -19,13 +19,23 @@
 <div style="margin-top: 100px;">
     <div>
         <input type="hidden" id="file"/>
-        <span>
-            标签tag：
-            <input type="text" id="tag"/>
+        <span class="layui-form-item" style="width: 50%;margin: auto;">
+            <label class="layui-form-label">标签tag：</label>
+            <div class="layui-input-block">
+                <input class="layui-input" id="tag" type="text" placeholder="请输入标签..."/>
+                <br>
+                <br>
+                <button class="layui-btn layui-btn-radius" th:onclick="${'tagAdd('''+T(cn.net.arven.common.constant.Constant).FILE_TAG_GALLERY+''')'}">摄影作品</button>
+                <button class="layui-btn layui-btn-radius" th:onclick="${'tagAdd('''+T(cn.net.arven.common.constant.Constant).FILE_TAG_BANNER+''')'}">轮播图</button>
+                <button class="layui-btn layui-btn-radius" th:onclick="${'tagAdd('''+T(cn.net.arven.common.constant.Constant).FILE_TAG_PHOTOGRAPHER+''')'}">摄影师</button>
+                <button class="layui-btn layui-btn-danger layui-btn-radius" onclick="tagClear()">清空</button>
+            </div>
         </span>
         <br/>
+        <br/>
+        <br/>
         <span>
-            <button type="button" class="layui-btn" id="ticket">
+            <button type="button" class="layui-btn layui-btn-warm layui-btn-radius" id="ticket">
                 <i class="layui-icon">&#xe67c;</i>上传文件
             </button>
             <br/>
@@ -41,9 +51,21 @@
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     ctxPath = /*[[@{/}]]*/ '';
+
     /*]]>*/
 
+    function tagAdd(tag) {
+        var val = $("#tag").val();
+        if (val == "") {
+            $("#tag").val(tag);
+        } else {
+            $("#tag").val(val + "," + tag);
+        }
+    }
 
+    function tagClear() {
+        $("#tag").val("")
+    }
 
     layui.use('upload', function () {
         var upload = layui.upload;
@@ -53,27 +75,29 @@
             elem: '#ticket' //绑定元素
             , multiple: true
             , accept: 'file'
-            , url: ctxPath+'upload' //上传接口
-            ,data: { 'tag': function () {
+            , url: ctxPath + 'upload' //上传接口
+            , data: {
+                'tag': function () {
                     return $("#tag").val();
-                }}
+                }
+            }
             , done: function (res) {
                 //上传完毕回调
                 var fileId = res.fileId;
                 $("#file").val(fileId);
                 $("#msg").text("文件已上传。");
                 $("#picture").css("display", "");
-                $("#picture").attr("src", ctxPath+"view/breviary/" + fileId);
-                $("#source").attr("href", ctxPath+"view/truth/" + fileId);
-                
+                $("#picture").attr("src", ctxPath + "view/breviary/" + fileId);
+                $("#source").attr("href", ctxPath + "view/truth/" + fileId);
+
                 layer.msg("上传成功！")
             }
             , error: function () {
                 layer.msg("上传失败！")
-            },allDone: function(obj){ //当文件全部被提交后，才触发
-                var str = "得到总文件数: "+obj.total+"</br>请求成功的文件数: "+obj.successful+"</br>请求失败的文件数: "+obj.aborted;
+            }, allDone: function (obj) { //当文件全部被提交后，才触发
+                var str = "得到总文件数: " + obj.total + "</br>请求成功的文件数: " + obj.successful + "</br>请求失败的文件数: " + obj.aborted;
                 $("#msg").html(str);
-        }
+            }
         });
     });
 </script>
