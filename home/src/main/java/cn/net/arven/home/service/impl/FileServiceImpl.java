@@ -9,16 +9,9 @@ import cn.net.arven.home.dao.FileDao;
 import cn.net.arven.home.service.IFileService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.drew.imaging.jpeg.JpegMetadataReader;
-import com.drew.imaging.jpeg.JpegProcessingException;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
-import com.sun.imageio.plugins.jpeg.JPEGImageWriterResources;
-import mediautil.gen.Rational;
-import mediautil.image.jpeg.Entry;
-import mediautil.image.jpeg.Exif;
-import mediautil.image.jpeg.LLJTran;
-import mediautil.image.jpeg.LLJTranException;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
 import org.springframework.stereotype.Service;
@@ -26,7 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -144,33 +138,4 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
         return saveFile(fileEntity);
     }
 
-    private static void changeEXIF(java.io.File file) throws Exception {
-        InputStream fip = new FileInputStream(file);
-        LLJTran llj = new LLJTran(fip);
-        try {
-            llj.read(LLJTran.READ_INFO, true);
-        } catch (LLJTranException e) {
-            e.printStackTrace();
-        }
-        Exif exif = (Exif) llj.getImageInfo();
-        Entry e = new Entry(Exif.ASCII);
-
-        e.setValue(0,"ewrw");
-        exif.setTagValue(Exif.MAKE,-1, e, true);
-
-        llj.refreshAppx(); // Recreate Marker Data for changes done
-
-
-        OutputStream out = new FileOutputStream(file);
-        llj.xferInfo(null, out, LLJTran.REPLACE, LLJTran.REPLACE);
-        fip.close();
-        out.close();
-        llj.freeMemory();
-
-    }
-
-    public static void main(String[] args) throws Exception {
-        java.io.File file = new  java.io.File("D:\\opt\\data\\file\\20190507220958874.JPG");
-        changeEXIF(file);
-    }
 }
