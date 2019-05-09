@@ -48,6 +48,13 @@
         .gallery__thumbnail {
             height: inherit !important
         }
+        .loadings{
+            width: 100px!important;
+            position: absolute;
+            border: none;
+            left: 50%;
+            top: 45%;
+        }
     </style>
 </head>
 
@@ -138,7 +145,7 @@
                 <div th:class="${(galleryStat.index %14 == 0 || galleryStat.index %14 == 5 ?'col-md-6 portfolio-grids ':'col-md-3 portfolio-grids ')+(galleryStat.index %14 <5?' imgsLeft':' imgsRight')}"
                      data-aos="zoom-in" th:each="gallery : ${gallery_crosswise}">
                     <a th:href="${large+gallery.realName}" class="b-link-stripe b-animate-go lightninBox" data-lb-group="1">
-                        <img th:src="${large+gallery.realName}" class="img-responsive" alt="w3ls" th:title="${gallery.showName}"/>
+                        <img th:src="${large+gallery.realName}" class="img-responsive" th:alt="${gallery.showName}" th:title="${gallery.showName}"/>
                         <div class="b-wrapper">
                             <i class="fa fa-magic" aria-hidden="true"></i>
                         </div>
@@ -298,7 +305,7 @@
     $(document).ready(function () {
         $("#owl-demo2").owlCarousel({
             items: 1,
-            lazyLoad: false,
+            lazyLoad: true,
             autoPlay: true,
             navigation: false,
             navigationText: false,

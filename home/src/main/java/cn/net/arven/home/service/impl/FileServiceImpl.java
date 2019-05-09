@@ -9,16 +9,24 @@ import cn.net.arven.home.dao.FileDao;
 import cn.net.arven.home.service.IFileService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.drew.imaging.jpeg.JpegMetadataReader;
+import com.drew.imaging.jpeg.JpegProcessingException;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
+import com.sun.imageio.plugins.jpeg.JPEGImageWriterResources;
+import mediautil.gen.Rational;
+import mediautil.image.jpeg.Entry;
+import mediautil.image.jpeg.Exif;
+import mediautil.image.jpeg.LLJTran;
+import mediautil.image.jpeg.LLJTranException;
 import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -39,7 +47,7 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
 
     @Override
-    public List<File> getFileByTag(String tag, Integer minSize,Integer crosswise) {
+    public List<File> getFileByTag(String tag, Integer minSize, Integer crosswise) {
         List<File> fileList = baseMapper.getFileByTag(tag, minSize, crosswise);
         if (CollUtil.isEmpty(fileList)) {
             return Collections.emptyList();
@@ -92,16 +100,25 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
         }
 
         FileUtil.writeBytes(file.getBytes(), truth);
+        //水印图片
+        BufferedImage watermarkRead = ImageIO.read(new java.io.File("/opt/data/file/watermark.png"));
         BufferedImage bufferedImage = Thumbnails.of(truth).scale(1).asBufferedImage();
         int height = bufferedImage.getHeight();
         int width = bufferedImage.getWidth();
         boolean crosswise = width > height;
+        int largeW = 3000;
+        int largeH = 2000;
+        int smallW = 120;
+        int smallH = 90;
+        float transparency = 0.5f;
         if (crosswise) {
-            Thumbnails.of(truth).size(6000, 4000).toOutputStream(new FileOutputStream(large));
-            Thumbnails.of(truth).size(120, 90).toOutputStream(new FileOutputStream(small));
+            Thumbnails.of(truth).size(largeW, largeH).watermark(Positions.BOTTOM_RIGHT, watermarkRead, transparency)
+                    .outputQuality(0.5f).toOutputStream(new FileOutputStream(large));
+            Thumbnails.of(truth).size(smallW, smallH).toOutputStream(new FileOutputStream(small));
         } else {
-            Thumbnails.of(truth).size(4000, 6000).toOutputStream(new FileOutputStream(large));
-            Thumbnails.of(truth).size(90, 120).toOutputStream(new FileOutputStream(small));
+            Thumbnails.of(truth).size(largeH, largeW).watermark(Positions.BOTTOM_RIGHT, watermarkRead, transparency)
+                    .outputQuality(0.5f).toOutputStream(new FileOutputStream(large));
+            Thumbnails.of(truth).size(smallH, smallW).toOutputStream(new FileOutputStream(small));
         }
         File fileEntity = new File();
         fileEntity.setPath(Constant.STATIC_TRUTH_PATH);
@@ -112,7 +129,7 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
         fileEntity.setType(cn.net.arven.common.util.FileUtil.getFileType(file));
         if (Constant.FILE_TYPE_IMAGE.equals(fileEntity.getType())) {
             try {
-                Metadata metadata = JpegMetadataReader.readMetadata(new java.io.File(fileEntity.getPath() + fileEntity.getRealName()));
+                Metadata metadata = JpegMetadataReader.readMetadata(truth);
                 for (Directory directory : metadata.getDirectories()) {
                     for (Tag t : directory.getTags()) {
                         if ("Date/Time".equals(t.getTagName())) {
@@ -125,5 +142,35 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
             }
         }
         return saveFile(fileEntity);
+    }
+
+    private static void changeEXIF(java.io.File file) throws Exception {
+        InputStream fip = new FileInputStream(file);
+        LLJTran llj = new LLJTran(fip);
+        try {
+            llj.read(LLJTran.READ_INFO, true);
+        } catch (LLJTranException e) {
+            e.printStackTrace();
+        }
+        Exif exif = (Exif) llj.getImageInfo();
+        Entry e = new Entry(Exif.ASCII);
+
+        e.setValue(0,"ewrw");
+        exif.setTagValue(Exif.MAKE,-1, e, true);
+
+        llj.refreshAppx(); // Recreate Marker Data for changes done
+
+
+        OutputStream out = new FileOutputStream(file);
+        llj.xferInfo(null, out, LLJTran.REPLACE, LLJTran.REPLACE);
+        fip.close();
+        out.close();
+        llj.freeMemory();
+
+    }
+
+    public static void main(String[] args) throws Exception {
+        java.io.File file = new  java.io.File("D:\\opt\\data\\file\\20190507220958874.JPG");
+        changeEXIF(file);
     }
 }
