@@ -28,6 +28,7 @@
                 <button class="layui-btn layui-btn-radius" th:onclick="${'tagAdd('''+T(cn.net.arven.common.constant.Constant).FILE_TAG_GALLERY+''')'}">摄影作品</button>
                 <button class="layui-btn layui-btn-radius" th:onclick="${'tagAdd('''+T(cn.net.arven.common.constant.Constant).FILE_TAG_BANNER+''')'}">轮播图</button>
                 <button class="layui-btn layui-btn-radius" th:onclick="${'tagAdd('''+T(cn.net.arven.common.constant.Constant).FILE_TAG_PHOTOGRAPHER+''')'}">摄影师</button>
+                <button class="layui-btn layui-btn-radius" th:onclick="${'tagAdd('''+T(cn.net.arven.common.constant.Constant).FILE_TAG_EXPO2019+''')'}">EXPO2019</button>
                 <button class="layui-btn layui-btn-danger layui-btn-radius" onclick="tagClear()">清空</button>
             </div>
         </span>
@@ -41,11 +42,12 @@
             <br/>
             <p id="msg" style="text-align: center;color: #0000FF"></p>
             <br/>
-            <a id="source" title="点击查看原图" target="_blank">
+            <!--<a id="source" title="点击查看原图" target="_blank">
                 <img src="#" id="picture" style="display: none;" width="200px"/>
-            </a>
+            </a>-->
         </span>
     </div>
+    <div id="show"></div>
     <br/><br/>
 </div>
 <script type="text/javascript" th:inline="javascript">
@@ -86,10 +88,13 @@
                 var fileId = res.fileId;
                 $("#file").val(fileId);
                 $("#msg").text("文件已上传。");
-                $("#picture").css("display", "");
-                $("#picture").attr("src", ctxPath + "view/breviary/" + fileId);
-                $("#source").attr("href", ctxPath + "view/truth/" + fileId);
-
+                // $("#picture").css("display", "");
+                // $("#picture").attr("src", ctxPath + "view/breviary/" + fileId);
+                // $("#source").attr("href", ctxPath + "view/truth/" + fileId);
+                var src = ctxPath + "view/breviary/" + fileId;
+                var str = $("#show").html();
+                str +="<img src='"+src+"' width='200px'/>";
+                $("#show").html(str);
                 layer.msg("上传成功！")
             }
             , error: function () {

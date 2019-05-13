@@ -24,6 +24,7 @@ public class Constant {
     public static final String FILE_TAG_BANNER = "banner";
     public static final String FILE_TAG_PHOTOGRAPHER = "photographer";
     public static final String FILE_TAG_GALLERY = "gallery";
+    public static final String FILE_TAG_EXPO2019 = "EXPO2019";
 
 
     public static final int BANNER_SIZE = 12;
