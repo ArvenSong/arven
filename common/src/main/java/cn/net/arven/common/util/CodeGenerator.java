@@ -36,7 +36,7 @@ public class CodeGenerator {
 	 * JDBC相关配置
 	 */
 	private static final String DRIVER = "com.mysql.jdbc.Driver";
-	private static final String URL = "jdbc:mysql://106.12.92.174:3306/arven?useUnicode=true&characterEncoding=UTF-8";
+	private static final String URL = "jdbc:mysql://localhost:3306/arven?useUnicode=true&characterEncoding=UTF-8";
 	private static final String USER_NAME = "root";
 	private static final String PASSWORD = "arvensong";
 

@@ -17,21 +17,22 @@
 <body>
 
 <div style="margin-top: 100px;">
-    <div>
+    <div class="layui-form">
         <input type="hidden" id="file"/>
         <span class="layui-form-item" style="width: 50%;margin: auto;">
             <label class="layui-form-label">标签tag：</label>
             <div class="layui-input-block">
+                <input class="layui-input" id="tag_id" type="hidden"/>
                 <input class="layui-input" id="tag" type="text" placeholder="请输入标签..."/>
-                <br>
-                <br>
-                <button class="layui-btn layui-btn-radius" th:onclick="${'tagAdd('''+T(cn.net.arven.common.constant.Constant).FILE_TAG_GALLERY+''')'}">摄影作品</button>
-                <button class="layui-btn layui-btn-radius" th:onclick="${'tagAdd('''+T(cn.net.arven.common.constant.Constant).FILE_TAG_BANNER+''')'}">轮播图</button>
-                <button class="layui-btn layui-btn-radius" th:onclick="${'tagAdd('''+T(cn.net.arven.common.constant.Constant).FILE_TAG_PHOTOGRAPHER+''')'}">摄影师</button>
-                <button class="layui-btn layui-btn-radius" th:onclick="${'tagAdd('''+T(cn.net.arven.common.constant.Constant).FILE_TAG_EXPO2019+''')'}">EXPO2019</button>
                 <button class="layui-btn layui-btn-danger layui-btn-radius" onclick="tagClear()">清空</button>
+                <br>
+                <br>
             </div>
         </span>
+
+        可选标签：
+        <input type="checkbox" class="tag_checkbox" th:value="${tag.id}" th:each="tag : ${tagList}"
+               th:title="${tag.name}">
         <br/>
         <br/>
         <br/>
@@ -56,17 +57,24 @@
 
     /*]]>*/
 
-    function tagAdd(tag) {
-        var val = $("#tag").val();
-        if (val == "") {
-            $("#tag").val(tag);
-        } else {
-            $("#tag").val(val + "," + tag);
+    function setTag() {
+        var name = "";
+        var tagId = "";
+        $(".tag_checkbox:checked").each(function () {
+            name += this.title+",";
+            tagId += this.value+",";
+        });
+        if(name!="") {
+            name = name.substr(0,name.length-1);
+            tagId = tagId.substr(0,tagId.length-1);
         }
+        $("#tag").val(name);
+        $("#tag_id").val(tagId);
     }
 
     function tagClear() {
-        $("#tag").val("")
+        $("#tag").val("");
+        $("#tag_id").val("");
     }
 
     layui.use('upload', function () {
@@ -77,10 +85,10 @@
             elem: '#ticket' //绑定元素
             , multiple: true
             , accept: 'file'
-            , url: ctxPath + 'upload' //上传接口
+            , url: ctxPath + 'manage/upload' //上传接口
             , data: {
                 'tag': function () {
-                    return $("#tag").val();
+                    return $("#tag_id").val();
                 }
             }
             , done: function (res) {
@@ -91,9 +99,9 @@
                 // $("#picture").css("display", "");
                 // $("#picture").attr("src", ctxPath + "view/breviary/" + fileId);
                 // $("#source").attr("href", ctxPath + "view/truth/" + fileId);
-                var src = ctxPath + "view/breviary/" + fileId;
+                var src = ctxPath + "manage/view/breviary/" + fileId;
                 var str = $("#show").html();
-                str +="<img src='"+src+"' width='200px'/>";
+                str += "<img src='" + src + "' width='200px'/>";
                 $("#show").html(str);
                 layer.msg("上传成功！")
             }
@@ -104,6 +112,14 @@
                 $("#msg").html(str);
             }
         });
+    });
+
+    layui.use('form', function () {
+        var form = layui.form;
+        form.on('checkbox', function (data) {
+            setTag();
+        });
+        form.render();
     });
 </script>
 </body>

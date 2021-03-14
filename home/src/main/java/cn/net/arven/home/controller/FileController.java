@@ -4,6 +4,7 @@ import cn.net.arven.common.constant.Constant;
 import cn.net.arven.common.entity.File;
 import cn.net.arven.common.util.FileUtil;
 import cn.net.arven.home.service.IFileService;
+import cn.net.arven.home.service.ITagService;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +30,21 @@ import java.util.Map;
  * @date 2019-04-23 16:34
  **/
 @Controller
+@RequestMapping("/manage")
 public class FileController {
 
 
     @Autowired
     IFileService fileService;
+    @Autowired
+    ITagService tagService;
+
     @RequestMapping("/file")
     public Object home(){
-        return "file";
+        ModelAndView mv = new ModelAndView("file");
+        Map<String, Object> model = mv.getModel();
+        model.put("tagList" ,tagService.getAll());
+        return mv;
     }
 
     /**
