@@ -19,20 +19,22 @@
 <div style="margin-top: 100px;">
     <div class="layui-form">
         <input type="hidden" id="file"/>
-        <span class="layui-form-item" style="width: 50%;margin: auto;">
+        <div class="layui-form-item" style="width: 50%;margin: auto; display: none;">
             <label class="layui-form-label">标签tag：</label>
             <div class="layui-input-block">
                 <input class="layui-input" id="tag_id" type="hidden"/>
                 <input class="layui-input" id="tag" type="text" placeholder="请输入标签..."/>
-                <button class="layui-btn layui-btn-danger layui-btn-radius" onclick="tagClear()">清空</button>
-                <br>
-                <br>
             </div>
-        </span>
-
-        可选标签：
-        <input type="checkbox" class="tag_checkbox" th:value="${tag.id}" th:each="tag : ${tagList}"
-               th:title="${tag.name}">
+        </div>
+        <br/>
+        <br/>
+        <div class="layui-form-item" style="width: 50%;margin: auto;">
+            <label class="layui-form-label">可选标签：</label>
+            <div class="layui-input-block">
+                <input type="checkbox" class="tag_checkbox" th:value="${tag.id}" th:each="tag : ${tagList}"
+                    th:title="${tag.name}">
+            </div>
+        </div>
         <br/>
         <br/>
         <br/>
@@ -40,6 +42,8 @@
             <button type="button" class="layui-btn layui-btn-warm layui-btn-radius" id="ticket">
                 <i class="layui-icon">&#xe67c;</i>上传文件
             </button>
+            <button class="layui-btn layui-btn-danger layui-btn-radius" onclick="tagClear()">清空</button>
+
             <br/>
             <p id="msg" style="text-align: center;color: #0000FF"></p>
             <br/>

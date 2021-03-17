@@ -24,7 +24,7 @@ public class Tag extends Model<Tag> {
         /**
      * id
      */
-         @TableId(value = "id", type = IdType.ID_WORKER)
+         @TableId(value = "id", type = IdType.ID_WORKER_STR)
 
     private String id;
 

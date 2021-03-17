@@ -9,5 +9,8 @@
     <select id="selectList" resultType="cn.net.arven.common.entity.Tag">
         SELECT * FROM tag
     </select>
+    <select id="exist" resultType="java.lang.Integer" parameterType="java.lang.String">
+        SELECT count(*) FROM tag WHERE NAME = #{name}
+    </select>
 
 </mapper>

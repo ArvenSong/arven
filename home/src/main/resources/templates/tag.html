@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8"/>
+    <title>标签管理</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css" th:href="@{/layui/css/layui.css}" media="all"/>
+    <script src="/static/layui/layui.all.js" th:src="@{/layui/layui.all.js}"></script>
+    <script src="/static/js/jquery-3.2.1.min.js" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+</head>
+<body>
+<div class="layui-form">
+    <div class="layui-form-item" style="width: 50%;margin: auto;">
+        <label class="layui-form-label">标签tag：</label>
+        <div class="layui-input-inline">
+            <input class="layui-input" id="tag" type="text" placeholder="请输入标签..."/>
+        </div>
+        <button class="layui-btn layui-btn-warm layui-btn-radius" onclick="addTag()">添加</button>
+    </div>
+</div>
+
+<span>
+    <table class="layui-table" align="left">
+    <colgroup>
+    </colgroup>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>名称</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="tag : ${tagList}">
+        <td th:text="${tag.id}">xx</td>
+        <td>
+            <span th:id="${tag.id+'_name_old'}" th:text="${tag.name}">xx</span>
+            <input class="layui-input" style="display: none" th:id="${tag.id+'_name'}" th:value="${tag.name}">
+        </td>
+        <td>
+            <button class="layui-btn layui-btn-warm layui-btn-radius" th:onclick="${'editTag('''+tag.id+''')'}">编辑</button>
+            <button class="layui-btn layui-btn-danger layui-btn-radius" th:onclick="${'deleteTag('''+tag.id+''','''+tag.name+''')'}">删除</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</span>
+<script>
+    layui.use('form', function () {
+        var form = layui.form;
+        form.render();
+    });
+    function deleteTag(id,name) {
+        layer.confirm('确定要删除标签【'+name+'】?', {icon: 3, title:'提示'}, function(index){
+            //do something
+            $.post("tag/delete",{
+                'id':id
+            },function(res){
+                if(res==true){
+                    window.parent.tips("删除成功。");
+                    setTimeout('window.location.reload()',500);
+                } else {
+                    window.parent.tips("删除失败。");
+                }
+            },"json");
+            layer.close(index);
+        });
+    }
+    function editTag(id) {
+        $("#"+id+"_name").css("display","");
+        $("#"+id+"_name_old").css("display","none");
+    }
+    function addTag() {
+        $.post("tag/add",{
+            'name':$("#tag").val()
+        },function(res){
+            if(res==0){
+                window.parent.tips("添加成功。");
+                setTimeout('window.location.reload()',500);
+            } else if(res ==1){
+                window.parent.tips("标签名称重复。");
+            } else {
+                window.parent.tips("添加失败。");
+            }
+        },"json");
+    }
+</script>
+</body>
+</html>

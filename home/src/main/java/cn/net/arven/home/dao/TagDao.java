@@ -17,4 +17,6 @@ public interface TagDao extends BaseMapper<Tag> {
 
 
     List<Tag> selectList();
+
+    int exist(String tagName);
 }
