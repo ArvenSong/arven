@@ -20,4 +20,6 @@ public interface ITagService extends IService<Tag> {
 
 
     Object tagAdd(String name);
+
+    Object tagModify(String id, String name);
 }

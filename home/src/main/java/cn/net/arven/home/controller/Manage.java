@@ -1,8 +1,11 @@
 package cn.net.arven.home.controller;
 
+import cn.net.arven.common.entity.File;
 import cn.net.arven.common.entity.Tag;
 import cn.net.arven.home.service.IFileService;
 import cn.net.arven.home.service.ITagService;
+import cn.net.arven.home.vo.FileVO;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,6 +58,11 @@ public class Manage {
     public Object tagAdd(@RequestParam("name")String name) {
         return tagService.tagAdd(name);
     }
+    @RequestMapping("/tag/modify")
+    @ResponseBody
+    public Object tagModify(@RequestParam("id")String id,@RequestParam("name")String name) {
+        return tagService.tagModify(id,name);
+    }
 
     @RequestMapping("/tag")
     public Object tag() {
@@ -63,5 +71,24 @@ public class Manage {
         model.put("tagList",tagService.getAll());
         return mv;
     }
+    @RequestMapping("/imageList")
+    public Object imageList() {
+        ModelAndView mv = new ModelAndView("imageList");
+        Map<String, Object> model = mv.getModel();
+        model.put("tagList",tagService.getAll());
+        return mv;
+    }
+    @RequestMapping("/imageList/page")
+    @ResponseBody
+    public Object pageList(@RequestParam("page")Long page,@RequestParam("limit")Long limit) {
+        Map<String, Object> result = new HashMap<>();
+        Page<FileVO> fileVOPage = fileService.getAll(page, limit);
+        result.put("data", fileVOPage.getRecords());
+        result.put("count",fileVOPage.getTotal());
+        result.put("msg","");
+        result.put("code",0);
+        return result;
+    }
+
 
 }

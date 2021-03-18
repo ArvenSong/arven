@@ -2,11 +2,15 @@ package cn.net.arven.home.service.impl;
 
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.net.arven.common.constant.Constant;
 import cn.net.arven.common.entity.File;
 import cn.net.arven.common.util.FileUtil;
 import cn.net.arven.home.dao.FileDao;
+import cn.net.arven.home.dao.TagDao;
 import cn.net.arven.home.service.IFileService;
+import cn.net.arven.home.vo.FileVO;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.drew.imaging.jpeg.JpegMetadataReader;
 import com.drew.metadata.Directory;
@@ -14,6 +18,7 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,6 +44,10 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
 
     //nikon
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
+
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    @Autowired
+    private TagDao tagDao;
 
     @Override
     public List<File> getFileByTag(String tag, Integer minSize, Integer crosswise) {
@@ -138,4 +147,28 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
         return saveFile(fileEntity);
     }
 
+    @Override
+    public Page<FileVO> getAll(Long page,Long limit) {
+
+        Page<FileVO> fileVOPage = baseMapper.selectList(new Page<>(page, limit));
+        List<FileVO> records = fileVOPage.getRecords();
+        if(CollUtil.isNotEmpty(records)) {
+            for (FileVO record : records) {
+                if(StrUtil.isNotBlank(record.getTag())) {
+                    String[] split = record.getTag().split(",");
+                    String tagName = "";
+                    for (String tagId : split) {
+                        cn.net.arven.common.entity.Tag tag = tagDao.selectById(tagId);
+                        if(tag!= null) {
+                            tagName += tag.getName() + ",";
+                        }
+                    }
+                    if(StrUtil.isNotBlank(tagName)) {
+                        record.setTag(tagName.substring(0, tagName.length() - 1));
+                    }
+                }
+            }
+        }
+        return fileVOPage;
+    }
 }

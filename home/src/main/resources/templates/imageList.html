@@ -7,71 +7,33 @@
     <link rel="stylesheet" href="/static/layui/css/layui.css" th:href="@{/layui/css/layui.css}" media="all"/>
     <script src="/static/layui/layui.all.js" th:src="@{/layui/layui.all.js}"></script>
     <script src="/static/js/jquery-3.2.1.min.js" th:src="@{/js/jquery-3.2.1.min.js}"></script>
-    <style type="text/css">
-        span {
-            display: block;
-            text-align: center;
-        }
-    </style>
 </head>
 <body>
 <span>
-    <!--<table class="layui-hide" id="test"></table>-->
-
+    <table id="data" lay-filter="test"></table>
 </span>
-<script type="text/javascript" th:inline="javascript">
-    /*<![CDATA[*/
-    ctxPath = /*[[@{/}]]*/ '';
+<script type="text/javascript" th:inline="none">
 
-    /*]]>*/
-    // layui.use('table', function(){
-    //     var table = layui.table;
-    //
-    //     table.render({
-    //         elem: '#test'
-    //         ,url:'/manage/tag/all'
-    //         ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-    //         ,cols: [[
-    //             {field:'id', title: 'ID', sort: true}
-    //             ,{field:'name', title: '名称'} //width 支持：数字、百分比和不填写。你还可以通过 minWidth 参数局部定义当前单元格的最小宽度，layui 2.2.1 新增
-    //             ,{title: '操作'}
-    //         ]]
-    //         ,parseData: function(res){ //res 即为原始返回的数据
-    //             return {
-    //                 "code": res.code, //解析接口状态
-    //                 "msg": res.msg, //解析提示文本
-    //                 "count": res.count, //解析数据长度
-    //                 "data": res.data //解析数据列表
-    //             };
-    //         }
-    //     });
-    // });
+    layui.use('table', function(){
+        var table = layui.table;
+        //第一个实例
+        table.render({
+            elem: '#data'
+            ,height: 312
+            ,url: 'imageList/page' //数据接口
+            ,page: true //开启分页
+            ,cols: [
+                [
+                {field: 'id', title: 'ID', sort: true, fixed: 'left'}
+                ,{field: 'showName', title: '名称'}
+                ,{field: 'tag', title: '标签', sort: true}
+                ,{field: 'createTime', title: '创建时间'}
+                ,{title: '操作', width:200}
+                ]
+            ]
+        });
+
+    });
 </script>
-<table class="layui-table">
-    <colgroup>
-        <col width="150">
-        <col width="200">
-        <col>
-    </colgroup>
-    <thead>
-    <tr>
-        <th>昵称</th>
-        <th>加入时间</th>
-        <th>签名</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>贤心</td>
-        <td>2016-11-29</td>
-        <td>人生就像是一场修行</td>
-    </tr>
-    <tr>
-        <td>许闲心</td>
-        <td>2016-11-28</td>
-        <td>于千万人之中遇见你所遇见的人，于千万年之中，时间的无涯的荒野里…</td>
-    </tr>
-    </tbody>
-</table>
 </body>
 </html>

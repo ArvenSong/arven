@@ -10,7 +10,7 @@
         select <include refid="Base_Column_List"></include> from file where tag like CONCAT('%',#{tag},'%')
         <choose>
             <when test="crosswise!=null">
-                AND  crosswise = #{crosswise}
+                AND crosswise = #{crosswise}
             </when>
         </choose>
         ORDER BY RAND()
@@ -19,6 +19,11 @@
                 LIMIT #{limit}
             </when>
         </choose>
+    </select>
+    <select id="selectList" resultType="cn.net.arven.home.vo.FileVO">
+        SELECT
+        id,show_name showName,create_time createTime,tag
+        FROM file
     </select>
 
 

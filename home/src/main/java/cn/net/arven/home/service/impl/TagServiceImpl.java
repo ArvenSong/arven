@@ -4,12 +4,10 @@ import cn.hutool.core.util.StrUtil;
 import cn.net.arven.common.entity.Tag;
 import cn.net.arven.home.dao.TagDao;
 import cn.net.arven.home.service.ITagService;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -46,5 +44,18 @@ public class TagServiceImpl extends ServiceImpl<TagDao, Tag> implements ITagServ
             baseMapper.insert(tag);
         }
         return 0;
+    }
+
+    @Override
+    public Object tagModify(String id, String name) {
+        int exist = baseMapper.exist(name);
+        if(exist>0) {
+            return -1;
+        }
+        Tag tag = baseMapper.selectById(id);
+        tag.setName(name);
+        tag.setUpdateTime(new Date());
+        baseMapper.updateById(tag);
+        return baseMapper.updateById(tag);
     }
 }

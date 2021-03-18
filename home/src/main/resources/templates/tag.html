@@ -38,7 +38,8 @@
             <input class="layui-input" style="display: none" th:id="${tag.id+'_name'}" th:value="${tag.name}">
         </td>
         <td>
-            <button class="layui-btn layui-btn-warm layui-btn-radius" th:onclick="${'editTag('''+tag.id+''')'}">编辑</button>
+            <button class="layui-btn layui-btn-warm layui-btn-radius" th:onclick="${'editTag('''+tag.id+''')'}" th:id="${tag.id+'_edit'}" >编辑</button>
+            <button class="layui-btn layui-btn-success layui-btn-radius" th:onclick="${'saveTag('''+tag.id+''')'}" th:id="${tag.id+'_save'}" style="display: none">保存</button>
             <button class="layui-btn layui-btn-danger layui-btn-radius" th:onclick="${'deleteTag('''+tag.id+''','''+tag.name+''')'}">删除</button>
         </td>
     </tr>
@@ -69,6 +70,8 @@
     function editTag(id) {
         $("#"+id+"_name").css("display","");
         $("#"+id+"_name_old").css("display","none");
+        $("#"+id+"_edit").css("display","none");
+        $("#"+id+"_save").css("display","");
     }
     function addTag() {
         $.post("tag/add",{
@@ -81,6 +84,21 @@
                 window.parent.tips("标签名称重复。");
             } else {
                 window.parent.tips("添加失败。");
+            }
+        },"json");
+    }
+    function saveTag(id) {
+        $.post("tag/modify",{
+            'id':id
+            ,'name':$("#"+id+"_name").val()
+        },function(res){
+            if(res==1){
+                window.parent.tips("保存成功。");
+                setTimeout('window.location.reload()',500);
+            } else if(res==-1) {
+                window.parent.tips("标签名称重复。");
+            }else {
+                window.parent.tips("保存失败。");
             }
         },"json");
     }
