@@ -10,6 +10,7 @@ import cn.net.arven.home.dao.FileDao;
 import cn.net.arven.home.dao.TagDao;
 import cn.net.arven.home.service.IFileService;
 import cn.net.arven.home.vo.FileVO;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.drew.imaging.jpeg.JpegMetadataReader;
@@ -27,6 +28,7 @@ import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -148,26 +150,38 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
     }
 
     @Override
-    public Page<FileVO> getAll(Long page,Long limit) {
-
-        Page<FileVO> fileVOPage = baseMapper.selectList(new Page<>(page, limit));
-        List<FileVO> records = fileVOPage.getRecords();
-        if(CollUtil.isNotEmpty(records)) {
-            for (FileVO record : records) {
-                if(StrUtil.isNotBlank(record.getTag())) {
-                    String[] split = record.getTag().split(",");
-                    String tagName = "";
-                    for (String tagId : split) {
-                        cn.net.arven.common.entity.Tag tag = tagDao.selectById(tagId);
-                        if(tag!= null) {
-                            tagName += tag.getName() + ",";
+    public IPage<FileVO> getAll(Long page, Long limit, String tagId, String name) {
+        List<String> tagIdList = new ArrayList<>();
+        if(StrUtil.isNotBlank(tagId)) {
+            String[] split = tagId.split(",");
+            tagIdList = CollUtil.newArrayList(split);
+        }
+        if(StrUtil.isNotBlank(name)) {
+            name = "%"+name+"%";
+        } else {
+            name = "";
+        }
+        IPage<FileVO> fileVOPage = baseMapper.selectPageList(new Page<>(page, limit),tagIdList,name);
+        if(fileVOPage !=null) {
+            List<FileVO> records = fileVOPage.getRecords();
+            if (CollUtil.isNotEmpty(records)) {
+                for (FileVO record : records) {
+                    if (StrUtil.isNotBlank(record.getTag())) {
+                        String[] split = record.getTag().split(",");
+                        String tagName = "";
+                        for (String id : split) {
+                            cn.net.arven.common.entity.Tag tag = tagDao.selectById(id);
+                            if (tag != null) {
+                                tagName += tag.getName() + ",";
+                            }
                         }
-                    }
-                    if(StrUtil.isNotBlank(tagName)) {
-                        record.setTag(tagName.substring(0, tagName.length() - 1));
+                        record.setTag(StrUtil.isBlank(tagName)?"":tagName.substring(0, tagName.length() - 1));
                     }
                 }
             }
+        } else {
+            fileVOPage = new Page<>();
+            fileVOPage.setTotal(0L);
         }
         return fileVOPage;
     }

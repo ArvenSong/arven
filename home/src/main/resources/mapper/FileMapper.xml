@@ -20,10 +20,22 @@
             </when>
         </choose>
     </select>
-    <select id="selectList" resultType="cn.net.arven.home.vo.FileVO">
+    <select id="selectPageList" resultType="cn.net.arven.home.vo.FileVO">
         SELECT
         id,show_name showName,create_time createTime,tag
         FROM file
+        <where>
+            1=1
+            <if test="tagIdList != null and tagIdList.size() > 0" >
+                and tag in
+                <foreach item="item" index="index" collection="tagIdList" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="name != null and name != ''" >
+                and show_name like #{name}
+            </if>
+        </where>
     </select>
 
 

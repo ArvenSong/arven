@@ -9,6 +9,29 @@
     <script src="/static/js/jquery-3.2.1.min.js" th:src="@{/js/jquery-3.2.1.min.js}"></script>
 </head>
 <body>
+
+
+<div class="layui-form ">
+    <input class="layui-input" id="tag_id" type="text" style="display: none"/>
+
+    <div class="layui-form-item" style="width: 50%;margin: auto;">
+        <label class="layui-form-label">可选标签：</label>
+        <div class="layui-input-block">
+            <input type="checkbox" class="tag_checkbox" th:value="${tag.id}" th:each="tag : ${tagList}"
+                   th:title="${tag.name}">
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <div class="layui-form-item" style="width: 50%;margin: auto;">
+        <label class="layui-form-label">图片名称：</label>
+        <div class="layui-input-inline">
+            <input class="layui-input" id="name" type="text" placeholder="请输入图片名称..."/>
+        </div>
+        <button class="layui-btn layui-btn-radius" data-type="reload">搜索</button>
+    </div>
+
+</div>
 <span>
     <table id="data" lay-filter="test"></table>
 </span>
@@ -19,21 +42,61 @@
         //第一个实例
         table.render({
             elem: '#data'
-            ,height: 312
+            ,limit: 10
             ,url: 'imageList/page' //数据接口
-            ,page: true //开启分页
+            ,page: true
+            ,id: 'table'
             ,cols: [
                 [
-                {field: 'id', title: 'ID', sort: true, fixed: 'left'}
-                ,{field: 'showName', title: '名称'}
-                ,{field: 'tag', title: '标签', sort: true}
-                ,{field: 'createTime', title: '创建时间'}
-                ,{title: '操作', width:200}
+                    {type:'checkbox'}
+                    ,{field: 'id', title: 'ID', sort: true, fixed: 'left'}
+                    ,{field: 'showName', title: '名称'}
+                    ,{field: 'tag', title: '标签', sort: true}
+                    ,{field: 'createTime', title: '创建时间'}
+                    ,{title: '操作', width:200}
                 ]
             ]
+
+        });
+        var $ = layui.$, active = {
+            reload: function(){
+                //执行重载
+                table.reload('table', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        tagId: $('#tag_id').val()
+                        ,name: $('#name').val()
+                    }
+                }, 'data');
+            }
+        };
+
+        $('.layui-form-item .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
         });
 
     });
+    layui.use('form', function () {
+        var form = layui.form;
+        form.on('checkbox', function (data) {
+            setTag();
+        });
+        form.render();
+    });
+
+    function setTag() {
+        var tagId = "";
+        $(".tag_checkbox:checked").each(function () {
+            tagId += this.value+",";
+        });
+        if(name!="") {
+            tagId = tagId.substr(0,tagId.length-1);
+        }
+        $("#tag_id").val(tagId);
+    }
 </script>
 </body>
 </html>

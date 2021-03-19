@@ -5,6 +5,7 @@ import cn.net.arven.common.entity.Tag;
 import cn.net.arven.home.service.IFileService;
 import cn.net.arven.home.service.ITagService;
 import cn.net.arven.home.vo.FileVO;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -80,9 +81,11 @@ public class Manage {
     }
     @RequestMapping("/imageList/page")
     @ResponseBody
-    public Object pageList(@RequestParam("page")Long page,@RequestParam("limit")Long limit) {
+    public Object pageList(@RequestParam("page")Long page,@RequestParam("limit")Long limit
+                        ,@RequestParam(value = "tagId",required = false)String tagId,
+                           @RequestParam(value = "name",required = false)String name) {
         Map<String, Object> result = new HashMap<>();
-        Page<FileVO> fileVOPage = fileService.getAll(page, limit);
+        IPage<FileVO> fileVOPage = fileService.getAll(page, limit,tagId,name);
         result.put("data", fileVOPage.getRecords());
         result.put("count",fileVOPage.getTotal());
         result.put("msg","");

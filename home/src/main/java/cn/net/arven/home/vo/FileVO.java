@@ -1,11 +1,14 @@
 package cn.net.arven.home.vo;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class FileVO {
     private String id;
     private String showName;
     private String tag;
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
 

@@ -2,6 +2,7 @@ package cn.net.arven.home.service;
 
 import cn.net.arven.common.entity.File;
 import cn.net.arven.home.vo.FileVO;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,5 +37,5 @@ public interface IFileService extends IService<File> {
      */
     List<File> getFileByTag(String tag, Integer minSize,Integer crosswise);
 
-    Page<FileVO> getAll(Long page, Long limit);
+    IPage<FileVO> getAll(Long page, Long limit, String tagId, String name);
 }
