@@ -1,5 +1,6 @@
 package cn.net.arven.home.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -8,7 +9,8 @@ public class FileVO {
     private String id;
     private String showName;
     private String tag;
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private String path;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date createTime;
 
 
@@ -42,5 +44,13 @@ public class FileVO {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

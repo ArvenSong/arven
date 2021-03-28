@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8"/>
+    <title>标签管理</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css" th:href="@{/layui/css/layui.css}" media="all"/>
+    <script src="/static/layui/layui.all.js" th:src="@{/layui/layui.all.js}"></script>
+    <script src="/static/js/jquery-3.2.1.min.js" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+    <style type="text/css">
+        .image-item{
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="layui-form">
+    <br/>
+    <br/>
+    <div class="layui-form-item" style="width: 50%;margin: auto;">
+        <label class="layui-form-label">图片名称：</label>
+        <div class="layui-input-block">
+            <span class="layui-form-label-col" th:text=" ${image.showName}">xx</span>
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <div class="layui-form-item" style="width: 50%;margin: auto;">
+        <label class="layui-form-label">标签tag：</label>
+        <div class="layui-input-block">
+            <span class="layui-form-label-col" th:text=" ${image.tag}">xx</span>
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <div class="layui-form-item" style="width: 50%;margin: auto;">
+        <label class="layui-form-label">简介：</label>
+        <div class="layui-input-block">
+            <span class="layui-text" th:text=" ${image.profile}">xx</span>
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <div class="layui-form-item" style="width: 50%;margin: auto;">
+        <img th:src="${large + image.realName}" class="image-item" th:alt="${image.showName}" th:title="${image.showName}"/>
+    </div>
+    <br/>
+    <br/><br/>
+    <br/>
+</div>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    ctxPath = /*[[@{/}]]*/ '';
+
+    /*]]>*/
+
+
+
+
+    layui.use('form', function () {
+        var form = layui.form;
+        form.render();
+    });
+</script>
+
+</body>
+</html>

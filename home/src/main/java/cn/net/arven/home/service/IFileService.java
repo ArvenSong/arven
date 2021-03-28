@@ -38,4 +38,14 @@ public interface IFileService extends IService<File> {
     List<File> getFileByTag(String tag, Integer minSize,Integer crosswise);
 
     IPage<FileVO> getAll(Long page, Long limit, String tagId, String name);
+
+    File showOne(String id);
+
+    /**
+     * file.tag 转换为标签名称，逗号隔开
+     *
+     * @param tagStr
+     * @return
+     */
+    String transferTagName(String tagStr);
 }

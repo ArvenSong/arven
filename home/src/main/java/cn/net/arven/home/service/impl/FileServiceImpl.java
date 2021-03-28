@@ -177,6 +177,7 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
                         }
                         record.setTag(StrUtil.isBlank(tagName)?"":tagName.substring(0, tagName.length() - 1));
                     }
+                    record.setPath(Constant.STATIC_SMALL_URL+record.getPath());
                 }
             }
         } else {
@@ -184,5 +185,32 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
             fileVOPage.setTotal(0L);
         }
         return fileVOPage;
+    }
+
+    @Override
+    public File showOne(String id) {
+        File file = baseMapper.selectById(id);
+        if(file == null) {
+            return new File();
+        }
+        String newTagStr = transferTagName(file.getTag());
+        file.setTag(newTagStr);
+        return file;
+    }
+
+    public String transferTagName(String tagStr) {
+        String newTagStr = "";
+        String[] split = tagStr.split(",");
+        for (String tagId : split) {
+            cn.net.arven.common.entity.Tag tag = tagDao.selectById(tagId);
+            if(tag == null) {
+                continue;
+            }
+            newTagStr += tag.getName() +",";
+        }
+        if(StrUtil.isNotBlank(newTagStr)) {
+            newTagStr = newTagStr.substring(0,newTagStr.length()-1);
+        }
+        return newTagStr;
     }
 }

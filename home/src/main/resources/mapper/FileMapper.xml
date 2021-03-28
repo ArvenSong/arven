@@ -4,7 +4,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, path, show_name, real_name, creator, type, tag, crosswise, create_time, update_time
+        id, path, show_name, real_name, creator, type, tag, crosswise, create_time, update_time, profile
     </sql>
     <select id="getFileByTag" resultType="cn.net.arven.common.entity.File">
         select <include refid="Base_Column_List"></include> from file where tag like CONCAT('%',#{tag},'%')
@@ -22,7 +22,7 @@
     </select>
     <select id="selectPageList" resultType="cn.net.arven.home.vo.FileVO">
         SELECT
-        id,show_name showName,create_time createTime,tag
+        id,show_name showName,create_time createTime,tag,real_name path
         FROM file
         <where>
             1=1

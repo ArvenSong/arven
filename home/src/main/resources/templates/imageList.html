@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="/static/layui/css/layui.css" th:href="@{/layui/css/layui.css}" media="all"/>
     <script src="/static/layui/layui.all.js" th:src="@{/layui/layui.all.js}"></script>
     <script src="/static/js/jquery-3.2.1.min.js" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+    <style type="text/css">
+        .img-item{
+            height: 100%;
+        }
+        .layui-table-cell{
+            height:50px;
+            line-height: 50px;
+        }
+    </style>
 </head>
 <body>
 
@@ -35,6 +44,14 @@
 <span>
     <table id="data" lay-filter="test"></table>
 </span>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script type="text/html" id="barImg">
+    <img class="img-item" src="{{d.path}}" lay-event="detail"/>
+</script>
 <script type="text/javascript" th:inline="none">
 
     layui.use('table', function(){
@@ -48,12 +65,14 @@
             ,id: 'table'
             ,cols: [
                 [
-                    {type:'checkbox'}
+                    {type:'checkbox', fixed: 'left'}
                     ,{field: 'id', title: 'ID', sort: true, fixed: 'left'}
+                    ,{field: 'path', align:'center', templet: '#barImg', title: '预览'}
                     ,{field: 'showName', title: '名称'}
                     ,{field: 'tag', title: '标签', sort: true}
                     ,{field: 'createTime', title: '创建时间'}
-                    ,{title: '操作', width:200}
+                    ,{fixed: 'right', width:178, align:'center', toolbar: '#barDemo',title: '操作'}
+
                 ]
             ]
 
@@ -70,9 +89,64 @@
                         ,name: $('#name').val()
                     }
                 }, 'data');
+            },
+            getCheckData: function(){ //获取选中数据
+                var checkStatus = table.checkStatus('idTest')
+                    ,data = checkStatus.data;
+                layer.alert(JSON.stringify(data));
+            }
+            ,getCheckLength: function(){ //获取选中数目
+                var checkStatus = table.checkStatus('idTest')
+                    ,data = checkStatus.data;
+                layer.msg('选中了：'+ data.length + ' 个');
+            }
+            ,isAll: function(){ //验证是否全选
+                var checkStatus = table.checkStatus('idTest');
+                layer.msg(checkStatus.isAll ? '全选': '未全选')
             }
         };
+        //监听表格复选框选择
+        table.on('checkbox(test)', function(obj){
+            console.log(obj)
+        });
+        //监听工具条
+        table.on('tool(test)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'detail'){
+                top.layer.open({
+                    type: 2 //此处以iframe举例
+                    ,title: data.showName
+                    ,area: ['80%', '80%']
+                    ,shade: 0.3
+                    ,maxmin: true
+                    ,content: 'imageView/'+data.id
+                });
 
+            } else if(obj.event === 'del'){
+                layer.confirm('确定要删除吗？', function(index){
+                    $.post('imageDel/'+data.id,function (data) {
+                       if(data==true) {
+                           layer.msg("删除成功。")
+                       }
+                    });
+                    layer.close(index);
+                });
+            } else if(obj.event === 'edit'){
+                top.layer.open({
+                    type: 2 //此处以iframe举例
+                    ,title: data.showName
+                    ,area: ['80%', '80%']
+                    ,shade: 0.3
+                    ,maxmin: true
+                    ,content: 'imageEdit/'+data.id
+                });
+            }
+        });
+
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
         $('.layui-form-item .layui-btn').on('click', function(){
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';

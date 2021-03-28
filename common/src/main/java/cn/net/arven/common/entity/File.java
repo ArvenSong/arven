@@ -77,6 +77,12 @@ public class File extends Model<File> {
      
     private Date updateTime;
 
+    /**
+     * 简介，说明
+     */
+
+    private String profile;
+
 
     public String getId() {
         return id;
@@ -93,6 +99,15 @@ public class File extends Model<File> {
 
     public File setPath(String path) {
         this.path = path;
+        return this;
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public File setProfile(String profile) {
+        this.profile = profile;
         return this;
     }
 
@@ -186,6 +201,7 @@ public class File extends Model<File> {
     public static final String CREATE_TIME = "create_time";
 
     public static final String UPDATE_TIME = "update_time";
+    public static final String PROFILE = "profile";
 
     @Override
     protected Serializable pkVal() {
@@ -205,6 +221,7 @@ public class File extends Model<File> {
         ", crosswise=" + crosswise +
         ", createTime=" + createTime +
         ", updateTime=" + updateTime +
+        ", profile=" + profile +
         "}";
     }
 }

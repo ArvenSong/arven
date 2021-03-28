@@ -1,5 +1,6 @@
 package cn.net.arven.home.controller;
 
+import cn.net.arven.common.constant.Constant;
 import cn.net.arven.common.entity.File;
 import cn.net.arven.common.entity.Tag;
 import cn.net.arven.home.service.IFileService;
@@ -9,6 +10,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -92,6 +94,32 @@ public class Manage {
         result.put("code",0);
         return result;
     }
+    @RequestMapping("/imageView/{id}")
+    public Object imageView(@PathVariable("id") String id) {
+        ModelAndView mv = new ModelAndView("imageView");
+        Map<String, Object> model = mv.getModel();
+        model.put("image",fileService.showOne(id));
+        model.put("large", Constant.STATIC_LARGE_URL);
+        return mv;
+    }
 
+    @RequestMapping("/imageEdit/{id}")
+    public Object imageEdit(@PathVariable("id") String id) {
+        ModelAndView mv = new ModelAndView("imageEdit");
+        Map<String, Object> model = mv.getModel();
+        model.put("image",fileService.getById(id));
+        model.put("large", Constant.STATIC_LARGE_URL);
+        return mv;
+    }
+    @RequestMapping("/imageUpdate")
+    @ResponseBody
+    public Object imageUpdate(File file) {
+        return fileService.updateById(file);
+    }
 
+    @RequestMapping("/imageDel/{id}")
+    @ResponseBody
+    public Object imageDel(@PathVariable("id") String id) {
+        return fileService.removeById(id);
+    }
 }
