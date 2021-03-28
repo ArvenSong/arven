@@ -16,12 +16,14 @@
 <body>
 
 <div class="layui-form">
+    <input th:value="${image.tag}" name="tag" type="hidden"/>
+    <input th:value="${image.id}" name="id" type="hidden"/>
     <br/>
     <br/>
     <div class="layui-form-item" style="width: 50%;margin: auto;">
         <label class="layui-form-label">图片名称：</label>
         <div class="layui-input-block">
-            <span class="layui-form-label-col" th:text=" ${image.showName}">xx</span>
+            <input type="text" name="title" placeholder="请输入图片名称" class="layui-input" th:value=" ${image.showName}">
         </div>
     </div>
     <br/>
@@ -29,7 +31,8 @@
     <div class="layui-form-item" style="width: 50%;margin: auto;">
         <label class="layui-form-label">标签tag：</label>
         <div class="layui-input-block">
-            <span class="layui-form-label-col" th:text=" ${image.tag}">xx</span>
+            <input type="checkbox" class="tag_checkbox" th:value="${tag.id}" th:each="tag : ${tagList}"
+                   th:title="${tag.name}">
         </div>
     </div>
     <br/>
@@ -37,8 +40,13 @@
     <div class="layui-form-item" style="width: 50%;margin: auto;">
         <label class="layui-form-label">简介：</label>
         <div class="layui-input-block">
-            <span class="layui-text" th:text=" ${image.profile}">xx</span>
+            <textarea placeholder="请输入内容" name="profile" class="layui-textarea" th:text=" ${image.profile}">xx</textarea>
         </div>
+    </div>
+    <br/>
+    <br/>
+    <div class="layui-form-item" style="width: 50%;margin: auto;">
+        <button type="submit" style="float: right;" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
     </div>
     <br/>
     <br/>
@@ -61,6 +69,14 @@
     layui.use('form', function () {
         var form = layui.form;
         form.render();
+        //监听提交
+        form.on('submit(demo1)', function(data){
+            layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            })
+            return false;
+        });
+
     });
 </script>
 

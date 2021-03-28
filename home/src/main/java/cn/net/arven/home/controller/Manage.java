@@ -109,6 +109,7 @@ public class Manage {
         Map<String, Object> model = mv.getModel();
         model.put("image",fileService.getById(id));
         model.put("large", Constant.STATIC_LARGE_URL);
+        model.put("tagList",tagService.getAll());
         return mv;
     }
     @RequestMapping("/imageUpdate")
