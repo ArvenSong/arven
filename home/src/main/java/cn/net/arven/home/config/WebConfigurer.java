@@ -2,6 +2,7 @@ package cn.net.arven.home.config;
 
 import cn.net.arven.common.constant.Constant;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -17,6 +18,12 @@ public class WebConfigurer extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/small/**").addResourceLocations("file://"+Constant.STATIC_SMALL_PATH);
         registry.addResourceHandler("/large/**").addResourceLocations("file://"+Constant.STATIC_LARGE_PATH);
         registry.addResourceHandler("/truth/**").addResourceLocations("file://"+Constant.STATIC_TRUTH_PATH);
+    }
+
+    // 增加拦截器
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new MyInterceptor());
     }
 
 }

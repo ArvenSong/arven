@@ -29,4 +29,6 @@ public interface FileDao extends BaseMapper<File> {
     IPage<FileVO> selectPageList(Page<FileVO> tPage,@Param("tagIdList") List<String> tagIdList,
                              @Param("name") String name
                              );
+
+    File selectShowOne(String id);
 }

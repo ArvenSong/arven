@@ -42,17 +42,11 @@ public interface IFileService extends IService<File> {
     File showOne(String id);
 
     /**
-     * file.tag 转换为标签名称，逗号隔开
-     *
-     * @param tagStr
-     * @return
-     */
-    String transferTagName(String tagStr);
-
-    /**
      * 获取文件关联的tag集合
      * @param id
      * @return
      */
     List<String> getFileTagList(String id);
+
+    boolean updateFile(File file, List<String> tag);
 }

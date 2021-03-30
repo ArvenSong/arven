@@ -30,10 +30,7 @@ import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * <p>
@@ -205,34 +202,35 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
 
     @Override
     public File showOne(String id) {
-        File file = baseMapper.selectById(id);
+        File file = baseMapper.selectShowOne(id);
         if(file == null) {
             return new File();
         }
-        String newTagStr = transferTagName(file.getTag());
-        file.setTag(newTagStr);
         return file;
     }
 
-    public String transferTagName(String tagStr) {
-        String newTagStr = "";
-        String[] split = tagStr.split(",");
-        for (String tagId : split) {
-            cn.net.arven.common.entity.Tag tag = tagDao.selectById(tagId);
-            if(tag == null) {
-                continue;
-            }
-            newTagStr += tag.getName() +",";
-        }
-        if(StrUtil.isNotBlank(newTagStr)) {
-            newTagStr = newTagStr.substring(0,newTagStr.length()-1);
-        }
-        return newTagStr;
-    }
 
     @Override
     public List<String> getFileTagList(String id) {
 
         return fileTagDao.selectTagList(id);
+    }
+
+    @Override
+    public boolean updateFile(File file, List<String> tag) {
+        baseMapper.updateById(file);
+        Map<String, Object> paramMap = new HashMap<>();
+
+        paramMap.put("file",file.getId());
+        fileTagDao.deleteByMap(paramMap);
+        if(CollUtil.isNotEmpty(tag)) {
+            for (String tagId : tag) {
+                FileTag fileTag = new FileTag();
+                fileTag.setFile(file.getId());
+                fileTag.setTag(tagId);
+                fileTagDao.insert(fileTag);
+            }
+        }
+        return true;
     }
 }

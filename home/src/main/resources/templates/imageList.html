@@ -37,7 +37,7 @@
         <div class="layui-input-inline">
             <input class="layui-input" id="name" type="text" placeholder="请输入图片名称..."/>
         </div>
-        <button class="layui-btn layui-btn-radius" data-type="reload">搜索</button>
+        <button class="layui-btn layui-btn-radius" id="search" data-type="reload">搜索</button>
     </div>
 
 </div>
@@ -127,6 +127,7 @@
                     $.post('imageDel/'+data.id,function (data) {
                        if(data==true) {
                            layer.msg("删除成功。")
+                           search();
                        }
                     });
                     layer.close(index);
@@ -170,6 +171,9 @@
             tagId = tagId.substr(0,tagId.length-1);
         }
         $("#tag_id").val(tagId);
+    }
+    function search() {
+        $("#search").click();
     }
 </script>
 </body>

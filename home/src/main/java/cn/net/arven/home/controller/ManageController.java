@@ -116,8 +116,13 @@ public class ManageController {
     }
     @RequestMapping("/imageUpdate")
     @ResponseBody
-    public Object imageUpdate(File file) {
-        return fileService.updateById(file);
+    public Object imageUpdate(@RequestParam("id") String id,@RequestParam("profile") String profile,
+                              @RequestParam("showName") String showName, @RequestParam("tag[]") List<String> tag) {
+        File file = new File();
+        file.setId(id);
+        file.setProfile(profile);
+        file.setShowName(showName);
+        return fileService.updateFile(file,tag);
     }
 
     @RequestMapping("/imageDel/{id}")

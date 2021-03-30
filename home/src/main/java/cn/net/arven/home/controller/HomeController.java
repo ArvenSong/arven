@@ -5,8 +5,10 @@ import cn.net.arven.home.service.IFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -36,5 +38,21 @@ public class HomeController {
     @RequestMapping("/index.html")
     public Object index() {
         return home();
+    }
+
+    @RequestMapping("/login.html")
+    public Object login() {
+        return new ModelAndView("login");
+    }
+    @RequestMapping("/login")
+    public Object signIn(@RequestParam("username") String username,
+                         @RequestParam("password") String password,
+                        HttpServletRequest request) {
+        if (Constant.USERNAME.equals(username) && Constant.PASSWORD.equals(password)) {
+            request.getSession().setAttribute("username",username);
+            request.getSession().setAttribute("password",password);
+            return "redirect:/manage/home.html";
+        }
+        return new ModelAndView("login");
     }
 }

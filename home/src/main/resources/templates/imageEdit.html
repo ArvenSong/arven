@@ -16,14 +16,14 @@
 <body>
 
 <div class="layui-form">
-    <input th:value="${image.tag}" name="tag" type="hidden"/>
-    <input th:value="${image.id}" name="id" type="hidden"/>
+    <input th:value="${image.tag}"  id="tag" type="hidden"/>
+    <input th:value="${image.id}" id="id" type="hidden"/>
     <br/>
     <br/>
     <div class="layui-form-item" style="width: 50%;margin: auto;">
         <label class="layui-form-label">图片名称：</label>
         <div class="layui-input-block">
-            <input type="text" name="title" placeholder="请输入图片名称" class="layui-input" th:value=" ${image.showName}">
+            <input type="text" id="showName" placeholder="请输入图片名称" class="layui-input" th:value=" ${image.showName}">
         </div>
     </div>
     <br/>
@@ -40,7 +40,7 @@
     <div class="layui-form-item" style="width: 50%;margin: auto;">
         <label class="layui-form-label">简介：</label>
         <div class="layui-input-block">
-            <textarea placeholder="请输入内容" name="profile" class="layui-textarea" th:text=" ${image.profile}">xx</textarea>
+            <textarea placeholder="请输入内容" id="profile" class="layui-textarea" th:text=" ${image.profile}">xx</textarea>
         </div>
     </div>
     <br/>
@@ -64,32 +64,44 @@
     /*]]>*/
 
 
-
-
+    var fileTagList = [[${fileTagList}]];
     layui.use('form', function () {
         var form = layui.form;
         form.render();
         //监听提交
         form.on('submit(demo1)', function(data){
-            layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            })
+            var tagList = [];
+            $(":checkbox:checked").each(function () {
+                tagList.push($(this).val());
+            });
+            $.post("../imageUpdate",{
+                'id':$("#id").val()
+                ,'profile':$("#profile").val()
+                ,'tag':tagList
+                ,'showName':$("#showName").val()
+            },function (data) {
+                if (data==true) {
+                    parent.layer.msg("保存成功");
+                    var index=parent.layer.getFrameIndex(window.name); //获取当前窗口的name
+                    parent.layer.close(index);//关闭窗口
+                    top.main_content.search();
+                } else {
+                    layer.msg("保存失败");
+                }
+            });
             return false;
         });
-
+        $(":checkbox").each(function () {
+            for (var fileTag of fileTagList) {
+                var v = $(this).val();
+                if(v == fileTag) {
+                    $(this).prop("checked",true);
+                    form.render("checkbox");
+                }
+            }
+        })
     });
 
-    $(function () {
-        var fileTagList = [[${fileTagList}]];
-       $(":checkbox").each(function () {
-           for (var fileTag of fileTagList) {
-               var v = $(this).val();
-               if(v == fileTag) {
-                   $(this).attr("checked","checked");
-               }
-           }
-       })
-    });
 </script>
 
 </body>

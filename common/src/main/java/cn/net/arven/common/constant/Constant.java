@@ -1,5 +1,8 @@
 package cn.net.arven.common.constant;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 常量类
  *
@@ -51,5 +54,10 @@ public class Constant {
     public static final Integer TRUE = 1;
     public static final Integer FALSE = 0;
 
-
+    /**
+     * 存储用户登录
+     */
+    public static final Map<String,String> LOGIN_MAP = new HashMap<>();
+    public static final String USERNAME= "admin";
+    public static final String PASSWORD= "0";
 }

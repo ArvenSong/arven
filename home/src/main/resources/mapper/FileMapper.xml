@@ -44,6 +44,26 @@
             </if>
         </where>
     </select>
+    <select id="selectShowOne" resultType="cn.net.arven.common.entity.File" parameterType="java.lang.String">
+         SELECT DISTINCT
+          GROUP_CONCAT(tag.name) tag,
+          file.id,
+          file.path,
+          file.show_name,
+          file.real_name,
+          file.creator,
+          file.type,
+          file.crosswise,
+          file.create_time,
+          file.update_time,
+          file.profile
+         FROM
+            file LEFT JOIN file_tag
+         ON
+            file.id = file_tag.file
+            LEFT JOIN tag ON tag.id = file_tag.tag
+         WHERE file.id = #{id}
+    </select>
 
 
 </mapper>
