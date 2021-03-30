@@ -78,6 +78,18 @@
         });
 
     });
+
+    $(function () {
+        var fileTagList = [[${fileTagList}]];
+       $(":checkbox").each(function () {
+           for (var fileTag of fileTagList) {
+               var v = $(this).val();
+               if(v == fileTag) {
+                   $(this).attr("checked","checked");
+               }
+           }
+       })
+    });
 </script>
 
 </body>

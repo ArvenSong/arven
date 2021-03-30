@@ -21,19 +21,26 @@
         </choose>
     </select>
     <select id="selectPageList" resultType="cn.net.arven.home.vo.FileVO">
-        SELECT
-        id,show_name showName,create_time createTime,tag,real_name path
-        FROM file
+        SELECT DISTINCT
+        file.id,
+        file.show_name showName,
+        file.create_time createTime,
+        (SELECT GROUP_CONCAT(file_tag.tag) FROM file_tag WHERE file_tag.file = file.id) AS tag,
+        file.real_name path
+        FROM
+        file LEFT JOIN file_tag
+        ON
+        file.id = file_tag.file
         <where>
             1=1
             <if test="tagIdList != null and tagIdList.size() > 0" >
-                and tag in
+                AND file_tag.tag IN
                 <foreach item="item" index="index" collection="tagIdList" open="(" separator="," close=")">
                     #{item}
                 </foreach>
             </if>
             <if test="name != null and name != ''" >
-                and show_name like #{name}
+                and file.show_name like #{name}
             </if>
         </where>
     </select>

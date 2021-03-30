@@ -22,7 +22,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/manage")
-public class Manage {
+public class ManageController {
 
 
     @Autowired
@@ -107,7 +107,9 @@ public class Manage {
     public Object imageEdit(@PathVariable("id") String id) {
         ModelAndView mv = new ModelAndView("imageEdit");
         Map<String, Object> model = mv.getModel();
-        model.put("image",fileService.getById(id));
+        File file = fileService.getById(id);
+        model.put("image", file);
+        model.put("fileTagList", fileService.getFileTagList(file.getId()));
         model.put("large", Constant.STATIC_LARGE_URL);
         model.put("tagList",tagService.getAll());
         return mv;

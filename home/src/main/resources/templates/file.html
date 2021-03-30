@@ -37,6 +37,14 @@
         </div>
         <br/>
         <br/>
+        <div class="layui-form-item" style="width: 50%;margin: auto;">
+            <label class="layui-form-label">简介：</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" id="profile"  class="layui-textarea"></textarea>
+            </div>
+        </div>
+        <br/>
+        <br/>
         <br/>
         <span>
             <button type="button" class="layui-btn layui-btn-warm layui-btn-radius" id="ticket">
@@ -93,6 +101,9 @@
             , data: {
                 'tag': function () {
                     return $("#tag_id").val();
+                }
+                ,'profile': function () {
+                    return $("#profile").val();
                 }
             }
             , done: function (res) {

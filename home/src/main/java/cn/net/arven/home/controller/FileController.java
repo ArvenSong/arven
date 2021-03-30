@@ -57,10 +57,10 @@ public class FileController {
      */
     @RequestMapping("/upload")
     @ResponseBody
-    public Object upload(MultipartFile file, String tag) throws IOException {
+    public Object upload(MultipartFile file, String tag,String profile) throws IOException {
         System.gc();
         Map<String, Object> map = new HashMap<>();
-        map.put("fileId", fileService.saveMultipartFile(file, tag));
+        map.put("fileId", fileService.saveMultipartFile(file, tag, profile));
         return map;
 
     }

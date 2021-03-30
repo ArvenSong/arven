@@ -5,8 +5,10 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.net.arven.common.constant.Constant;
 import cn.net.arven.common.entity.File;
+import cn.net.arven.common.entity.FileTag;
 import cn.net.arven.common.util.FileUtil;
 import cn.net.arven.home.dao.FileDao;
+import cn.net.arven.home.dao.FileTagDao;
 import cn.net.arven.home.dao.TagDao;
 import cn.net.arven.home.service.IFileService;
 import cn.net.arven.home.vo.FileVO;
@@ -50,6 +52,9 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private TagDao tagDao;
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    @Autowired
+    private FileTagDao fileTagDao;
 
     @Override
     public List<File> getFileByTag(String tag, Integer minSize, Integer crosswise) {
@@ -83,7 +88,7 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
     }
 
     @Override
-    public String saveMultipartFile(MultipartFile file, String tag) throws IOException {
+    public String saveMultipartFile(MultipartFile file, String tag, String profile) throws IOException {
 
         if (file.isEmpty()) {
             throw new IOException("file is empty!");
@@ -130,6 +135,7 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
         fileEntity.setRealName(realName);
         fileEntity.setShowName(showName);
         fileEntity.setTag(tag);
+        fileEntity.setProfile(profile);
         fileEntity.setCrosswise(crosswise ? Constant.TRUE : Constant.FALSE);
         fileEntity.setType(cn.net.arven.common.util.FileUtil.getFileType(file));
         if (Constant.FILE_TYPE_IMAGE.equals(fileEntity.getType())) {
@@ -146,7 +152,17 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
             } catch (Exception e) {
             }
         }
-        return saveFile(fileEntity);
+        String fileId = saveFile(fileEntity);
+        if(StrUtil.isNotBlank(tag)) {
+            String[] split = tag.split(",");
+            for (String tagId : split) {
+                FileTag fileTag = new FileTag();
+                fileTag.setTag(tagId);
+                fileTag.setFile(fileId);
+                fileTagDao.insert(fileTag);
+            }
+        }
+        return fileId;
     }
 
     @Override
@@ -212,5 +228,11 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
             newTagStr = newTagStr.substring(0,newTagStr.length()-1);
         }
         return newTagStr;
+    }
+
+    @Override
+    public List<String> getFileTagList(String id) {
+
+        return fileTagDao.selectTagList(id);
     }
 }
