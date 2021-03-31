@@ -47,8 +47,6 @@
 				images[settings.setIndex]['displayAsALink'] = settings.displayAsALink;
 				images[settings.setIndex][index]            = [];
 				images[settings.setIndex][index]['adress']  = isSet($(this).attr('href'), ' ');
-				console.log($(this).attr('href'));
-				console.log($(this));
 				images[settings.setIndex][index]['profile']  = isSet($(this).attr('profile'), ' ');
 				images[settings.setIndex][index]['caption'] = isSet($(this).attr('title'), ' ');
 				if(!settings.displayAsALink){
@@ -195,7 +193,7 @@
 				'height'     : hauteur_image,
 				'width'      : largeur_image,
 				'marginLeft' : -largeur_image/2,
-				'marginTop'  : -(hauteur_image)/2
+				'marginTop'  : -(hauteur_image)/2-70
 			},settings.fadeInImageduration, 'swing', function(){
 				$('#Choco_bigImage').fadeTo(settings.fadeInImageduration, 1).height(hauteur_image).width(largeur_image);
 				if(!resize)
@@ -257,8 +255,8 @@
 			var k                  = limg/himg;
 			var kk                 = himg/limg;
 			if(settings.container.get(0).nodeName.toLowerCase() == 'body'){
-				windowHeight = $(window).height() *0.7;
-				windowWidth  = $(window).width()*0.7;
+				windowHeight = $(window).height() *0.85;
+				windowWidth  = $(window).width()*0.85;
 			}
 			else{
 				windowHeight = settings.container.height();

@@ -117,7 +117,8 @@ public class ManageController {
     @RequestMapping("/imageUpdate")
     @ResponseBody
     public Object imageUpdate(@RequestParam("id") String id,@RequestParam("profile") String profile,
-                              @RequestParam("showName") String showName, @RequestParam("tag[]") List<String> tag) {
+                              @RequestParam("showName") String showName,
+                              @RequestParam(value = "tag[]",required = false) List<String> tag) {
         File file = new File();
         file.setId(id);
         file.setProfile(profile);

@@ -17,6 +17,8 @@
             window.scrollTo(0, 1);
         }
     </script>
+    <link rel="stylesheet" href="/static/layui/css/layui.css" th:href="@{/layui/css/layui.css}" media="all"/>
+    <script src="/static/layui/layui.all.js" th:src="@{/layui/layui.all.js}"></script>
     <!-- //custom-theme -->
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
     <link rel="stylesheet" href="css/slider.css" type="text/css" media="screen" property=""/>
@@ -139,9 +141,13 @@
             <h3 class="agile_tittle"><i class="fa fa-bullhorn" aria-hidden="true"></i>  <span></span>摄影作品</h3>
         </div>
     </div>
+    <div class="layui-input-block  layui-form">
+        <input type="checkbox" class="tag_checkbox" th:value="${tag.id}" th:each="tag : ${tagList}"
+               th:title="${tag.name}">
+    </div>
     <div class="agile_wthree_inner_grids">
         <div class="agile_port_w3ls_info">
-            <div class="portfolio-grids_main imgsAll">
+            <div class="portfolio-grids_main imgsAll" th:fragment="photoDataDiv" id="photoDataDiv">
                 <div th:class="${(galleryStat.index %14 == 0 || galleryStat.index %14 == 5 ?'col-md-6 portfolio-grids ':'col-md-3 portfolio-grids ')+(galleryStat.index %14 <5?' imgsLeft':' imgsRight')}"
                      data-aos="zoom-in" th:each="gallery : ${gallery_crosswise}">
                     <a th:href="${large+gallery.realName}" class="b-link-stripe b-animate-go lightninBox" data-lb-group="1" th:profile="${gallery.profile}">
@@ -333,6 +339,29 @@
 <!-- //requried-jsfiles-for owl -->
 
 <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    ctxPath = /*[[@{/}]]*/ '';
 
+    /*]]>*/
+
+    layui.use('form', function () {
+        var form = layui.form;
+        form.on('checkbox', function (data) {
+            refreshGalleryData();
+        });
+        form.render();
+    });
+    function refreshGalleryData() {
+        var tagList = [];
+        $(":checkbox:checked").each(function () {
+            tagList.push($(this).val());
+        });
+        $('#photoDataDiv').load("galleryData",{
+            tag:tagList
+        });
+    }
+
+</script>
 </body>
 </html>

@@ -35,7 +35,7 @@ public interface IFileService extends IService<File> {
      * @param crosswise 是否横向 null代表全部
      * @return
      */
-    List<File> getFileByTag(String tag, Integer minSize,Integer crosswise);
+    List<File> getFileByTag(List<String> tag, Integer minSize,Integer crosswise);
 
     IPage<FileVO> getAll(Long page, Long limit, String tagId, String name);
 

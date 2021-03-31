@@ -26,7 +26,18 @@
         INNER JOIN tag
         ON file_tag.tag = tag.id
         WHERE
-        file_tag.tag =#{tag}
+        <choose>
+            <when test="tagIdList != null and tagIdList.size() > 0">
+                file_tag.tag IN
+                <foreach item="item" index="index" collection="tagIdList" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </when>
+            <otherwise>
+                file_tag.tag =  'gallery'
+            </otherwise>
+        </choose>
+
         <choose>
             <when test="crosswise!=null">
                 AND crosswise = #{crosswise}

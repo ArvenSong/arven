@@ -54,7 +54,7 @@ public class FileServiceImpl extends ServiceImpl<FileDao, File> implements IFile
     private FileTagDao fileTagDao;
 
     @Override
-    public List<File> getFileByTag(String tag, Integer minSize, Integer crosswise) {
+    public List<File> getFileByTag(List<String> tag, Integer minSize, Integer crosswise) {
         List<File> fileList = baseMapper.getFileByTag(tag, minSize, crosswise);
         if (CollUtil.isEmpty(fileList)) {
             return Collections.emptyList();

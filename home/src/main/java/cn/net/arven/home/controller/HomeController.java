@@ -2,13 +2,17 @@ package cn.net.arven.home.controller;
 
 import cn.net.arven.common.constant.Constant;
 import cn.net.arven.home.service.IFileService;
+import cn.net.arven.home.service.ITagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,6 +25,9 @@ public class HomeController {
     @Autowired
     IFileService fileService;
 
+    @Autowired
+    ITagService tagService;
+
     @RequestMapping("/")
     public Object home() {
         ModelAndView mv = new ModelAndView("index");
@@ -28,10 +35,17 @@ public class HomeController {
         model.put("small", Constant.STATIC_SMALL_URL);
         model.put("large", Constant.STATIC_LARGE_URL);
         model.put("truth", Constant.STATIC_TRUTH_URL);
-        model.put(Constant.FILE_TAG_BANNER, fileService.getFileByTag(Constant.FILE_TAG_BANNER, Constant.BANNER_SIZE, Constant.TRUE));
-        model.put(Constant.FILE_TAG_PHOTOGRAPHER, fileService.getFileByTag(Constant.FILE_TAG_PHOTOGRAPHER, null, null));
-        model.put(Constant.FILE_TAG_GALLERY + "_crosswise", fileService.getFileByTag(Constant.FILE_TAG_GALLERY, null, Constant.TRUE));
-        model.put(Constant.FILE_TAG_GALLERY + "_lengthwise", fileService.getFileByTag(Constant.FILE_TAG_GALLERY, null, Constant.FALSE));
+        model.put("tagList" ,tagService.getAll());
+        List<String> banner = new ArrayList<>();
+        banner.add(Constant.FILE_TAG_BANNER);
+        List<String> photographer = new ArrayList<>();
+        photographer.add(Constant.FILE_TAG_PHOTOGRAPHER);
+        List<String> gallery = new ArrayList<>();
+        gallery.add(Constant.FILE_TAG_GALLERY);
+        model.put(Constant.FILE_TAG_BANNER, fileService.getFileByTag(banner, Constant.BANNER_SIZE, Constant.TRUE));
+        model.put(Constant.FILE_TAG_PHOTOGRAPHER, fileService.getFileByTag(photographer, null, null));
+        model.put(Constant.FILE_TAG_GALLERY + "_crosswise", fileService.getFileByTag(gallery, null, Constant.TRUE));
+        model.put(Constant.FILE_TAG_GALLERY + "_lengthwise", fileService.getFileByTag(gallery, null, Constant.FALSE));
         return mv;
     }
 
@@ -54,5 +68,16 @@ public class HomeController {
             return "redirect:/manage/home.html";
         }
         return new ModelAndView("login");
+    }
+
+    @RequestMapping("/galleryData")
+    public Object galleryData(@RequestParam(value = "tag[]",required = false) List<String> tag, Model model) {
+        model.addAttribute("small", Constant.STATIC_SMALL_URL);
+        model.addAttribute("large", Constant.STATIC_LARGE_URL);
+        model.addAttribute("truth", Constant.STATIC_TRUTH_URL);
+        model.addAttribute(Constant.FILE_TAG_GALLERY + "_crosswise", fileService.getFileByTag(tag, null, Constant.TRUE));
+        model.addAttribute(Constant.FILE_TAG_GALLERY + "_lengthwise", fileService.getFileByTag(tag, null, Constant.FALSE));
+        System.err.println(tag);
+        return "index::photoDataDiv";
     }
 }

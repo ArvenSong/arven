@@ -23,7 +23,7 @@ import java.util.List;
 @Repository
 public interface FileDao extends BaseMapper<File> {
 
-    List<File> getFileByTag(@Param("tag")String tag, @Param("limit")Integer limit,@Param("crosswise")Integer crosswise);
+    List<File> getFileByTag(@Param("tagIdList")List<String> tagIdList, @Param("limit")Integer limit,@Param("crosswise")Integer crosswise);
 
 
     IPage<FileVO> selectPageList(Page<FileVO> tPage,@Param("tagIdList") List<String> tagIdList,
