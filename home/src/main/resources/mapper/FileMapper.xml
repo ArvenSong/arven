@@ -7,7 +7,26 @@
         id, path, show_name, real_name, creator, type, tag, crosswise, create_time, update_time, profile
     </sql>
     <select id="getFileByTag" resultType="cn.net.arven.common.entity.File">
-        select <include refid="Base_Column_List"></include> from file where tag like CONCAT('%',#{tag},'%')
+        SELECT
+        file.id,
+        path,
+        show_name,
+        real_name,
+        creator,
+        type,
+        tag.name tag,
+        crosswise,
+        file.create_time,
+        file.update_time,
+        PROFILE
+        FROM
+        file
+        INNER JOIN file_tag
+        ON file_tag.file = file.id
+        INNER JOIN tag
+        ON file_tag.tag = tag.id
+        WHERE
+        file_tag.tag =#{tag}
         <choose>
             <when test="crosswise!=null">
                 AND crosswise = #{crosswise}

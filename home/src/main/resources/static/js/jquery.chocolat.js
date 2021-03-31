@@ -47,6 +47,9 @@
 				images[settings.setIndex]['displayAsALink'] = settings.displayAsALink;
 				images[settings.setIndex][index]            = [];
 				images[settings.setIndex][index]['adress']  = isSet($(this).attr('href'), ' ');
+				console.log($(this).attr('href'));
+				console.log($(this));
+				images[settings.setIndex][index]['profile']  = isSet($(this).attr('profile'), ' ');
 				images[settings.setIndex][index]['caption'] = isSet($(this).attr('title'), ' ');
 				if(!settings.displayAsALink){
 					$(this).unbind('click').bind('click', {
@@ -87,7 +90,7 @@
 		function _interface(){
 			//html
 			clear();
-			settings.container.append('<div id="Choco_overlay"></div><div id="Choco_content"><div id="Choco_close"></div><div id="Choco_loading"></div><div id="Choco_container_photo"><img id="Choco_bigImage" src="" /></div><div id="Choco_container_description"><span id="Choco_container_title"></span><span id="Choco_container_via"></span></div><div id="Choco_left_arrow" class="Choco_arrows"></div><div id="Choco_right_arrow" class="Choco_arrows"></div></div>');	
+			settings.container.append('<div id="Choco_overlay"></div><div id="Choco_content"><div id="Choco_close"></div><div id="Choco_loading"></div><div id="Choco_container_photo"><img id="Choco_bigImage" src="" /><div id="Choco_profile" style="color:white;padding:25px">撒旦发生公司的韩国烦得很东方红风华绝代撒旦发生公司的韩国烦得很东方红风华绝代撒旦发生公司的韩国烦得很东方红风华绝代撒旦发生公司的韩国烦得很东方红风华绝代</div></div><div id="Choco_container_description"><span id="Choco_container_title"></span><span id="Choco_container_via"></span></div><div id="Choco_left_arrow" class="Choco_arrows"></div><div id="Choco_right_arrow" class="Choco_arrows"></div></div>');
 			$('#Choco_left_arrow').css('background-image', 'url('+settings.leftImg+')');  
 			$('#Choco_right_arrow').css('background-image', 'url('+settings.rightImg+')');  
 			$('#Choco_close').css('background-image', 'url('+settings.closeImg+')'); 
@@ -152,12 +155,14 @@
 			var imgPreloader = new Image();
 			imgPreloader.onload = function(){
 				$('#Choco_bigImage').attr('src',images[settings.setIndex][settings.currentImage]['adress']);
+				$('#Choco_profile').text(images[settings.setIndex][settings.currentImage]['profile']);
 				var ajustees = iWantThePerfectImageSize(imgPreloader.height,imgPreloader.width);
 				ChoColat(ajustees['hauteur'],ajustees['largeur'],resize);
 				$('#Choco_loading').stop().fadeOut(settings.fadeOutImageduration);
 			};
 			imgPreloader.src = images[settings.setIndex][settings.currentImage]['adress'];
-			preload();
+            $('#Choco_profile').text(images[settings.setIndex][settings.currentImage]['profile']);
+            preload();
 			upadteDescription();
 		}
 		function changePageChocolat(signe){
@@ -252,8 +257,8 @@
 			var k                  = limg/himg;
 			var kk                 = himg/limg;
 			if(settings.container.get(0).nodeName.toLowerCase() == 'body'){
-				windowHeight = $(window).height();
-				windowWidth  = $(window).width();
+				windowHeight = $(window).height() *0.7;
+				windowWidth  = $(window).width()*0.7;
 			}
 			else{
 				windowHeight = settings.container.height();
