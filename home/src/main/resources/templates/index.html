@@ -57,6 +57,17 @@
             left: 50%;
             top: 45%;
         }
+        a {
+            cursor: pointer;
+        }
+        .photoDataDiv {
+            width: 90%;
+            margin-left: 5%;
+        }
+        .tag_div {
+            width: 80%;
+            margin-left: 20%;
+        }
     </style>
 </head>
 
@@ -74,7 +85,7 @@
         <div class="gallery">
             <div th:each="banner : ${banner}" th:class="${bannerStat.index==1?'gallery\_\_img-block  current':'gallery\_\_img-block  '}">
                 <span class="" th:text="${banner.showName}">showName</span>
-                <a th:href="${truth+banner.realName}" target="_blank">
+                <a th:href="${large+banner.realName}" target="_blank">
                     <img th:src="${large+banner.realName}" th:thumb-url="${small+banner.realName}" title="点击查看原图"/>
                 </a>
             </div>
@@ -87,9 +98,9 @@
             <button type="button" class="overlay-close"><i class="fa fa-times" aria-hidden="true"></i></button>
             <nav>
                 <ul>
-                    <li><a href="#home" class="active scroll">Home</a></li>
-                    <li><a href="#portfolio" class="scroll">Gallery</a></li>
-                    <li><a href="#welcome" class="scroll">About</a></li>
+                    <li><a href="#home" class="active scroll">顶部</a></li>
+                    <li><a href="#testimonials" class="scroll">摄影师</a></li>
+                    <li><a href="#portfolio" class="scroll">摄影作品</a></li>
                 </ul>
             </nav>
         </div>
@@ -133,7 +144,7 @@
     </div>
 </div>
 <!-- stats -->
-<
+
 <!-- //services -->
 <div class="portfolio-agileinfo" id="portfolio">
     <div class="container">
@@ -141,16 +152,19 @@
             <h3 class="agile_tittle"><i class="fa fa-bullhorn" aria-hidden="true"></i>  <span></span>摄影作品</h3>
         </div>
     </div>
-    <div class="layui-input-block  layui-form">
+    <br/>
+    <br/>
+    <div class="layui-input-block  layui-form tag_div">
+        <b style="font-size: 20px;">标签筛选： </b>
         <input type="checkbox" class="tag_checkbox" th:value="${tag.id}" th:each="tag : ${tagList}"
                th:title="${tag.name}">
     </div>
     <div class="agile_wthree_inner_grids">
         <div class="agile_port_w3ls_info">
-            <div class="portfolio-grids_main imgsAll" th:fragment="photoDataDiv" id="photoDataDiv">
+            <div class="portfolio-grids_main imgsAll photoDataDiv" th:fragment="photoDataDiv" id="photoDataDiv">
                 <div th:class="${(galleryStat.index %14 == 0 || galleryStat.index %14 == 5 ?'col-md-6 portfolio-grids ':'col-md-3 portfolio-grids ')+(galleryStat.index %14 <5?' imgsLeft':' imgsRight')}"
                      data-aos="zoom-in" th:each="gallery : ${gallery_crosswise}">
-                    <a th:href="${large+gallery.realName}" class="b-link-stripe b-animate-go lightninBox" data-lb-group="1" th:profile="${gallery.profile}">
+                    <a th:onclick="${'showImage('''+gallery.id+''','''+gallery.showName+''')'}" class="b-link-stripe b-animate-go lightninBox" data-lb-group="1">
                         <img th:src="${large+gallery.realName}" class="img-responsive" th:alt="${gallery.showName}" th:title="${gallery.showName}"/>
                         <div class="b-wrapper">
                             <i class="fa fa-magic" aria-hidden="true"></i>
@@ -159,7 +173,7 @@
                 </div>
                 <div th:class="${(galleryStat.index %14 == 0 || galleryStat.index %14 == 5 ?'col-md-6 portfolio-grids ':'col-md-3 portfolio-grids ')+(galleryStat.index %14 <5?' imgsLeft':' imgsRight')}"
                      data-aos="zoom-in" th:each="gallery : ${gallery_lengthwise}">
-                    <a th:href="${large+gallery.realName}" class="b-link-stripe b-animate-go lightninBox" data-lb-group="1" th:profile="${gallery.profile}">
+                    <a th:onclick="${'showImage('''+gallery.id+''','''+gallery.showName+''')'}"  class="b-link-stripe b-animate-go lightninBox" data-lb-group="1">
                         <img th:src="${large+gallery.realName}" class="img-responsive" th:alt="${gallery.showName}" th:title="${gallery.showName}"/>
                         <div class="b-wrapper">
                             <i class="fa fa-magic" aria-hidden="true"></i>
@@ -173,7 +187,7 @@
 </div>
 <!--// Gallery -->
 <!-- /about -->
-<div class="about" id="welcome">
+<!--<div class="about" id="welcome">
     <div class="container">
         <div class="wthree_head_section">
             <h2>We Are Beauty Hunters !</h2>
@@ -203,11 +217,11 @@
             <div class="clearfix"></div>
         </div>
     </div>
-</div>
+</div>-->
 <!-- Modal4 -->
-<div class="modal fade" id="myModal4" tabindex="-1" role="dialog">
+<!--<div class="modal fade" id="myModal4" tabindex="-1" role="dialog">
     <div class="modal-dialog">
-        <!-- Modal content-->
+        &lt;!&ndash; Modal content&ndash;&gt;
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -222,7 +236,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
 <!-- //Modal4 -->
 
 <!--//about -->
@@ -238,9 +252,9 @@
         </div>
         <div class="col-md-8 botttom-nav-agileits">
             <ul class="nav-w3ls">
-                <li><a class="scroll" href="#home">Home</a></li>
-                <li><a class="scroll" href="#portfolio">Photo Gallery</a></li>
-                <li><a class="scroll" href="#welcome">About</a></li>
+                <li><a class="scroll" href="#home">回顶部</a></li>
+                <li><a class="scroll" href="#testimonials">摄影师</a></li>
+                <li><a class="scroll" href="#portfolio">摄影作品</a></li>
             </ul>
             <div class="w3l-social team_agile _icons">
                 <ul>
@@ -292,14 +306,14 @@
 <script src="js/demo1.js"></script>
 <!-- //nav -->
 <!-- js for portfolio lightbox -->
-<script src="js/jquery.chocolat.js "></script>
+<!--<script src="js/jquery.chocolat.js "></script>-->
 <link rel="stylesheet " href="css/chocolat.css " type="text/css" media="all"/>
 <!--light-box-files -->
-<script type="text/javascript ">
-    $(function () {
-        $('.portfolio-grids a').Chocolat();
-    });
-</script>
+<!--<script type="text/javascript ">-->
+    <!--$(function () {-->
+        <!--$('.portfolio-grids a').Chocolat();-->
+    <!--});-->
+<!--</script>-->
 <!-- /js for portfolio lightbox -->
 <!-- stats -->
 <script src="js/jquery.waypoints.min.js"></script>
@@ -361,7 +375,20 @@
             tag:tagList
         });
     }
-
+    function showImage(id,title) {
+        layer.open({
+            type: 2
+            ,content:"/view/"+id
+            ,title:title
+            ,shadeClose:true
+            ,area: ['80%', '80%']
+            ,shade: 0.8
+            ,maxmin: true
+        });
+    }
+$(function () {
+    $(".layui-icon-ok").hide();
+});
 </script>
 </body>
 </html>

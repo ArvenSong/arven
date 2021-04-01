@@ -1,16 +1,19 @@
 package cn.net.arven.home.controller;
 
 import cn.net.arven.common.constant.Constant;
+import cn.net.arven.common.entity.File;
 import cn.net.arven.home.service.IFileService;
 import cn.net.arven.home.service.ITagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -79,5 +82,14 @@ public class HomeController {
         model.addAttribute(Constant.FILE_TAG_GALLERY + "_lengthwise", fileService.getFileByTag(tag, null, Constant.FALSE));
         System.err.println(tag);
         return "index::photoDataDiv";
+    }
+
+    @RequestMapping("/view/{id}")
+    public Object galleryData(@PathVariable("id") String id) {
+        ModelAndView mv = new ModelAndView("view");
+        Map<String, Object> model = mv.getModel();
+        model.put("file",fileService.getById(id));
+        model.put("large", Constant.STATIC_LARGE_URL);
+        return mv;
     }
 }
